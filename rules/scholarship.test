@@ -1,0 +1,16 @@
+{
+  "filePath": "scholarship",
+  "testCases": [
+    {
+      "id": "4eec1744-39c1-43e8-b07d-1e6fedd90df7",
+      "name": "New test case",
+      "input": {
+        "GPA": 3.9,
+        "Income": 1800,
+        "Achievements": true
+      },
+      "expectedOutput": {}
+    }
+  ],
+  "contentType": "test"
+}

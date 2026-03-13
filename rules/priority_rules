@@ -1,0 +1,137 @@
+{
+  "edges": [
+    {
+      "id": "edge-1",
+      "type": "edge",
+      "sourceId": "input-1",
+      "targetId": "exp-1",
+      "sourceHandle": ""
+    }
+  ],
+  "nodes": [
+    {
+      "id": "input-1",
+      "name": "input",
+      "type": "inputNode",
+      "content": {
+        "schema": "{\r\n  \"type\": \"object\",\r\n  \"properties\": {\r\n    \"income\": { \"type\": \"number\" },\r\n    \"orphan\": { \"type\": \"boolean\" },\r\n    \"GPA\": { \"type\": \"number\" },\r\n    \"applicationDate\": { \"type\": \"string\", \"format\": \"date\" }\r\n  },\r\n  \"required\": [\"income\", \"orphan\", \"GPA\", \"applicationDate\"]\r\n}"
+      },
+      "position": {
+        "x": 110,
+        "y": 114
+      }
+    },
+    {
+      "id": "exp-1",
+      "name": "Priority Rules",
+      "type": "decisionTableNode",
+      "content": {
+        "rules": [
+          {
+            "_id": "c8599031-d9b9-411c-96f0-cf21997062d2",
+            "02c48134-0f13-422d-a0d5-a5222dd48cd4": ">= 3.5",
+            "6541d789-2e8e-4011-9828-a4e46443b117": "true",
+            "b56df09f-5f88-4d61-a541-aaa66e516cc8": "9",
+            "d0b2f452-e6c8-4b66-9449-af11f1defefb": "< 2000",
+            "fdfa233e-5f0f-4eab-82dc-6337c372ee94": "d($).month() == 7"
+          },
+          {
+            "_id": "8ba4d6b2-6084-4db3-9ced-d25db669c3fe",
+            "02c48134-0f13-422d-a0d5-a5222dd48cd4": ">= 3.0",
+            "6541d789-2e8e-4011-9828-a4e46443b117": "true",
+            "b56df09f-5f88-4d61-a541-aaa66e516cc8": "8",
+            "d0b2f452-e6c8-4b66-9449-af11f1defefb": "< 2000",
+            "fdfa233e-5f0f-4eab-82dc-6337c372ee94": "d($).month() == 7"
+          },
+          {
+            "_id": "d6edb321-c7df-4ab1-b0d6-5309000e4a31",
+            "02c48134-0f13-422d-a0d5-a5222dd48cd4": "",
+            "6541d789-2e8e-4011-9828-a4e46443b117": "true",
+            "b56df09f-5f88-4d61-a541-aaa66e516cc8": "7",
+            "d0b2f452-e6c8-4b66-9449-af11f1defefb": "< 2000",
+            "fdfa233e-5f0f-4eab-82dc-6337c372ee94": "d($).month() > 7"
+          },
+          {
+            "_id": "ad0ea1f9-7a05-44bf-b246-3a47b6086390",
+            "02c48134-0f13-422d-a0d5-a5222dd48cd4": ">= 3.5",
+            "6541d789-2e8e-4011-9828-a4e46443b117": "false",
+            "b56df09f-5f88-4d61-a541-aaa66e516cc8": "6",
+            "d0b2f452-e6c8-4b66-9449-af11f1defefb": "< 2000",
+            "fdfa233e-5f0f-4eab-82dc-6337c372ee94": "d($).month() == 7"
+          },
+          {
+            "_id": "9a5a6faf-1483-4305-ad0f-7f0082b8381c",
+            "02c48134-0f13-422d-a0d5-a5222dd48cd4": "",
+            "6541d789-2e8e-4011-9828-a4e46443b117": "false",
+            "b56df09f-5f88-4d61-a541-aaa66e516cc8": "5",
+            "d0b2f452-e6c8-4b66-9449-af11f1defefb": "< 2000",
+            "fdfa233e-5f0f-4eab-82dc-6337c372ee94": "d($).month() > 7"
+          },
+          {
+            "_id": "3d5c7fef-af55-430f-ac9a-aec2e0880604",
+            "02c48134-0f13-422d-a0d5-a5222dd48cd4": ">= 3.5",
+            "6541d789-2e8e-4011-9828-a4e46443b117": "true",
+            "b56df09f-5f88-4d61-a541-aaa66e516cc8": "5",
+            "d0b2f452-e6c8-4b66-9449-af11f1defefb": ">= 2000",
+            "fdfa233e-5f0f-4eab-82dc-6337c372ee94": "d($).month() == 7"
+          },
+          {
+            "_id": "cc60adb4-d1e9-4756-9314-a4ccb00efdf8",
+            "02c48134-0f13-422d-a0d5-a5222dd48cd4": "",
+            "6541d789-2e8e-4011-9828-a4e46443b117": "true",
+            "b56df09f-5f88-4d61-a541-aaa66e516cc8": "4",
+            "d0b2f452-e6c8-4b66-9449-af11f1defefb": ">= 2000",
+            "fdfa233e-5f0f-4eab-82dc-6337c372ee94": "d($).month() > 7"
+          },
+          {
+            "_id": "90e83d49-4bd3-4f38-8b24-9ea3618f6bd5",
+            "02c48134-0f13-422d-a0d5-a5222dd48cd4": "",
+            "6541d789-2e8e-4011-9828-a4e46443b117": "false",
+            "b56df09f-5f88-4d61-a541-aaa66e516cc8": "0",
+            "d0b2f452-e6c8-4b66-9449-af11f1defefb": ">= 2000",
+            "fdfa233e-5f0f-4eab-82dc-6337c372ee94": ""
+          }
+        ],
+        "inputs": [
+          {
+            "id": "d0b2f452-e6c8-4b66-9449-af11f1defefb",
+            "name": "income",
+            "field": "income"
+          },
+          {
+            "id": "6541d789-2e8e-4011-9828-a4e46443b117",
+            "name": "orphan",
+            "field": "orphan"
+          },
+          {
+            "id": "02c48134-0f13-422d-a0d5-a5222dd48cd4",
+            "name": "GPA",
+            "field": "GPA"
+          },
+          {
+            "id": "fdfa233e-5f0f-4eab-82dc-6337c372ee94",
+            "name": "applicationDate",
+            "field": "applicationDate"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "b56df09f-5f88-4d61-a541-aaa66e516cc8",
+            "name": "priorityScore",
+            "field": "priorityScore"
+          }
+        ],
+        "hitPolicy": "first",
+        "inputField": null,
+        "outputPath": null,
+        "passThrough": true,
+        "executionMode": "single"
+      },
+      "position": {
+        "x": 430,
+        "y": 114
+      }
+    }
+  ],
+  "contentType": "graph"
+}

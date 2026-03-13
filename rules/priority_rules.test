@@ -1,0 +1,17 @@
+{
+  "filePath": "priority_rules",
+  "testCases": [
+    {
+      "id": "5658235a-2fda-4105-a4d5-ccd0f2c41182",
+      "name": "New test case",
+      "input": {
+        "GPA": 3.8,
+        "income": 5000,
+        "orphan": true,
+        "applicationDate": "2026-03-13"
+      },
+      "expectedOutput": {}
+    }
+  ],
+  "contentType": "test"
+}

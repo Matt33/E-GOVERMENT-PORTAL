@@ -1,0 +1,15 @@
+{
+  "version": "1",
+  "project": {
+    "id": "9c008902-d701-4dd8-bc17-680a13a63406",
+    "key": "scholarship"
+  },
+  "commit": {
+    "id": "93ee13b1-1b86-4700-893d-1d082e434dbb",
+    "message": "Merge branch 'Feature/Scholarship-Levels'",
+    "branchName": "main"
+  },
+  "sync": {
+    "syncedAt": "2026-03-13T21:35:45.031Z"
+  }
+}

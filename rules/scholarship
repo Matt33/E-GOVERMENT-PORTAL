@@ -1,0 +1,105 @@
+{
+  "edges": [
+    {
+      "id": "edge-1",
+      "type": "edge",
+      "sourceId": "input-1",
+      "targetId": "expression-1",
+      "sourceHandle": ""
+    }
+  ],
+  "nodes": [
+    {
+      "id": "input-1",
+      "name": "input",
+      "type": "inputNode",
+      "content": {
+        "schema": "{\r\n  \"type\": \"object\",\r\n  \"properties\": {\r\n    \"GPA\": { \"type\": \"number\" },\r\n    \"Income\": { \"type\": \"number\" },\r\n    \"Achievements\": { \"type\": \"boolean\" }\r\n  },\r\n  \"required\": [\"GPA\", \"Income\", \"Achievements\"]\r\n}\r\n"
+      },
+      "position": {
+        "x": -10,
+        "y": 125
+      }
+    },
+    {
+      "id": "expression-1",
+      "name": "Scholarship Rules",
+      "type": "decisionTableNode",
+      "content": {
+        "rules": [
+          {
+            "_id": "904e0e21-84c2-42b0-b1e1-c6fac47905fa",
+            "4db30241-f73d-4acb-a96c-e82d8fa4cb90": ">= 3.8",
+            "8d5bfa10-14f7-408a-9557-d7369f01f839": "\"LEVEL_3\"",
+            "a7ad542a-1ab4-4e8b-ae68-013bde0c92d0": "<= 2000",
+            "ac0957f9-3ec8-4d92-be86-f7242c03367c": "100",
+            "f7d211db-9ce2-459b-8785-edf361b25129": "true"
+          },
+          {
+            "_id": "ed3a534e-9714-4102-ae45-dbd0462b2c6c",
+            "4db30241-f73d-4acb-a96c-e82d8fa4cb90": ">= 3.5",
+            "8d5bfa10-14f7-408a-9557-d7369f01f839": "\"LEVEL_2\"",
+            "a7ad542a-1ab4-4e8b-ae68-013bde0c92d0": "<= 4000",
+            "ac0957f9-3ec8-4d92-be86-f7242c03367c": "60",
+            "f7d211db-9ce2-459b-8785-edf361b25129": "true"
+          },
+          {
+            "_id": "13ea50b9-1857-4ec9-96b5-78d13c6b657f",
+            "4db30241-f73d-4acb-a96c-e82d8fa4cb90": ">= 3.0",
+            "8d5bfa10-14f7-408a-9557-d7369f01f839": "\"LEVEL_1\"",
+            "a7ad542a-1ab4-4e8b-ae68-013bde0c92d0": "<= 6000",
+            "ac0957f9-3ec8-4d92-be86-f7242c03367c": "20",
+            "f7d211db-9ce2-459b-8785-edf361b25129": "false"
+          },
+          {
+            "_id": "258900ad-429c-4f85-a45a-856621779d19",
+            "4db30241-f73d-4acb-a96c-e82d8fa4cb90": "< 3.0",
+            "8d5bfa10-14f7-408a-9557-d7369f01f839": "\"NONE\"",
+            "a7ad542a-1ab4-4e8b-ae68-013bde0c92d0": "",
+            "ac0957f9-3ec8-4d92-be86-f7242c03367c": "0",
+            "f7d211db-9ce2-459b-8785-edf361b25129": ""
+          }
+        ],
+        "inputs": [
+          {
+            "id": "4db30241-f73d-4acb-a96c-e82d8fa4cb90",
+            "name": "GPA",
+            "field": "GPA"
+          },
+          {
+            "id": "a7ad542a-1ab4-4e8b-ae68-013bde0c92d0",
+            "name": "Income",
+            "field": "Income"
+          },
+          {
+            "id": "f7d211db-9ce2-459b-8785-edf361b25129",
+            "name": "Achievements",
+            "field": "Achievements"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "8d5bfa10-14f7-408a-9557-d7369f01f839",
+            "name": "ScholarshipLevel",
+            "field": "ScholarshipLevel"
+          },
+          {
+            "id": "ac0957f9-3ec8-4d92-be86-f7242c03367c",
+            "name": "Discount",
+            "field": "Discount"
+          }
+        ],
+        "hitPolicy": "first",
+        "inputField": null,
+        "outputPath": null,
+        "passThrough": true,
+        "executionMode": "single"
+      },
+      "position": {
+        "x": 430,
+        "y": 114
+      }
+    }
+  ],
+  "contentType": "graph"
+}

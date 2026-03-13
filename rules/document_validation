@@ -1,0 +1,143 @@
+{
+  "edges": [
+    {
+      "id": "edge-1",
+      "type": "edge",
+      "sourceId": "input-1",
+      "targetId": "exp-1",
+      "sourceHandle": ""
+    }
+  ],
+  "nodes": [
+    {
+      "id": "input-1",
+      "name": "input",
+      "type": "inputNode",
+      "content": {
+        "schema": "{\r\n  \"type\": \"object\",\r\n  \"properties\": {\r\n    \"hasID\": { \"type\": \"boolean\" },\r\n    \"IDValid\": { \"type\": \"boolean\" },\r\n    \"hasIncomeDoc\": { \"type\": \"boolean\" },\r\n    \"hasStudentCert\": { \"type\": \"boolean\" },\r\n    \"hasFamilyStatus\": { \"type\": \"boolean\" }\r\n  },\r\n  \"required\": [\"hasID\", \"IDValid\", \"hasIncomeDoc\", \"hasStudentCert\", \"hasFamilyStatus\"]\r\n}"
+      },
+      "position": {
+        "x": -65,
+        "y": 105
+      }
+    },
+    {
+      "id": "exp-1",
+      "name": "Document Validation Rules",
+      "type": "decisionTableNode",
+      "content": {
+        "rules": [
+          {
+            "_id": "1733b466-d94f-456f-865f-f3ab85cde411",
+            "12178ce9-d21b-4893-8d49-2573ae3a585a": "true",
+            "12f1a37a-4e2f-4bdd-8ddc-f57f704d0f63": "true",
+            "4f0e028f-2e2c-45c6-9565-eb47bec0c543": "true",
+            "508f991c-49eb-47ca-a525-85f9f7a0700e": "\"-\"",
+            "5e308e29-fc68-4324-8ad1-6b0ae73bff50": "true",
+            "5f8cc6b0-4321-4315-98b9-743dc8fcfdb8": "true",
+            "68d29cb0-6296-4d63-8d6e-80ba95150813": "true"
+          },
+          {
+            "_id": "84991668-cb0c-415e-b708-b6852b940aa1",
+            "12178ce9-d21b-4893-8d49-2573ae3a585a": "",
+            "12f1a37a-4e2f-4bdd-8ddc-f57f704d0f63": "",
+            "4f0e028f-2e2c-45c6-9565-eb47bec0c543": "",
+            "508f991c-49eb-47ca-a525-85f9f7a0700e": "\"Missing ID\"",
+            "5e308e29-fc68-4324-8ad1-6b0ae73bff50": "false",
+            "5f8cc6b0-4321-4315-98b9-743dc8fcfdb8": "false",
+            "68d29cb0-6296-4d63-8d6e-80ba95150813": ""
+          },
+          {
+            "_id": "a11769d1-c358-4df4-b441-b5ab3028799b",
+            "12178ce9-d21b-4893-8d49-2573ae3a585a": "",
+            "12f1a37a-4e2f-4bdd-8ddc-f57f704d0f63": "",
+            "4f0e028f-2e2c-45c6-9565-eb47bec0c543": "",
+            "508f991c-49eb-47ca-a525-85f9f7a0700e": "\"Invalid ID (bad record)\"",
+            "5e308e29-fc68-4324-8ad1-6b0ae73bff50": "false",
+            "5f8cc6b0-4321-4315-98b9-743dc8fcfdb8": "true",
+            "68d29cb0-6296-4d63-8d6e-80ba95150813": "false"
+          },
+          {
+            "_id": "2d7766e2-ed5d-40e9-b9c9-2a4e0585a197",
+            "12178ce9-d21b-4893-8d49-2573ae3a585a": "false",
+            "12f1a37a-4e2f-4bdd-8ddc-f57f704d0f63": "",
+            "4f0e028f-2e2c-45c6-9565-eb47bec0c543": "",
+            "508f991c-49eb-47ca-a525-85f9f7a0700e": "\"Missing family income document\"",
+            "5e308e29-fc68-4324-8ad1-6b0ae73bff50": "false",
+            "5f8cc6b0-4321-4315-98b9-743dc8fcfdb8": "true",
+            "68d29cb0-6296-4d63-8d6e-80ba95150813": "true"
+          },
+          {
+            "_id": "643a8cdc-3860-4a1b-9ecb-fc3826b1d099",
+            "12178ce9-d21b-4893-8d49-2573ae3a585a": "true",
+            "12f1a37a-4e2f-4bdd-8ddc-f57f704d0f63": "",
+            "4f0e028f-2e2c-45c6-9565-eb47bec0c543": "false",
+            "508f991c-49eb-47ca-a525-85f9f7a0700e": "\"Missing student certificate\"",
+            "5e308e29-fc68-4324-8ad1-6b0ae73bff50": "false",
+            "5f8cc6b0-4321-4315-98b9-743dc8fcfdb8": "true",
+            "68d29cb0-6296-4d63-8d6e-80ba95150813": "true"
+          },
+          {
+            "_id": "d45e9d31-90ff-4bbf-9e48-d039be3587f0",
+            "12178ce9-d21b-4893-8d49-2573ae3a585a": "true",
+            "12f1a37a-4e2f-4bdd-8ddc-f57f704d0f63": "false",
+            "4f0e028f-2e2c-45c6-9565-eb47bec0c543": "true",
+            "508f991c-49eb-47ca-a525-85f9f7a0700e": "\"Missing family status document\"",
+            "5e308e29-fc68-4324-8ad1-6b0ae73bff50": "false",
+            "5f8cc6b0-4321-4315-98b9-743dc8fcfdb8": "true",
+            "68d29cb0-6296-4d63-8d6e-80ba95150813": "true"
+          }
+        ],
+        "inputs": [
+          {
+            "id": "5f8cc6b0-4321-4315-98b9-743dc8fcfdb8",
+            "name": "hasID",
+            "field": "hasID"
+          },
+          {
+            "id": "68d29cb0-6296-4d63-8d6e-80ba95150813",
+            "name": "IDValid",
+            "field": "IDValid"
+          },
+          {
+            "id": "12178ce9-d21b-4893-8d49-2573ae3a585a",
+            "name": "hasIncomeDoc",
+            "field": "hasIncomeDoc"
+          },
+          {
+            "id": "4f0e028f-2e2c-45c6-9565-eb47bec0c543",
+            "name": "hasStudentCert",
+            "field": "hasStudentCert"
+          },
+          {
+            "id": "12f1a37a-4e2f-4bdd-8ddc-f57f704d0f63",
+            "name": "hasFamilyStatus",
+            "field": "hasFamilyStatus"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "5e308e29-fc68-4324-8ad1-6b0ae73bff50",
+            "name": "documentsValid",
+            "field": "documentsValid"
+          },
+          {
+            "id": "508f991c-49eb-47ca-a525-85f9f7a0700e",
+            "name": "reason",
+            "field": "reason"
+          }
+        ],
+        "hitPolicy": "first",
+        "inputField": null,
+        "outputPath": null,
+        "passThrough": true,
+        "executionMode": "single"
+      },
+      "position": {
+        "x": 430,
+        "y": 114
+      }
+    }
+  ],
+  "contentType": "graph"
+}
