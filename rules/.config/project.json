@@ -1,0 +1,15 @@
+{
+  "version": "1",
+  "project": {
+    "id": "9c008902-d701-4dd8-bc17-680a13a63406",
+    "key": "scholarship"
+  },
+  "commit": {
+    "id": "92d804cb-cd59-4ed8-bef8-76a7c5da956a",
+    "message": "Merge branch 'Feature/Scholarship-Priority-Check'",
+    "branchName": "main"
+  },
+  "sync": {
+    "syncedAt": "2026-03-13T21:33:45.033Z"
+  }
+}
