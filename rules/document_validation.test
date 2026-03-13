@@ -1,0 +1,18 @@
+{
+  "filePath": "document_validation",
+  "testCases": [
+    {
+      "id": "5785e38a-b241-4ba9-9dc7-fd1e18b46f92",
+      "name": "New test case",
+      "input": {
+        "hasID": true,
+        "IDValid": false,
+        "hasIncomeDoc": true,
+        "hasStudentCert": true,
+        "hasFamilyStatus": true
+      },
+      "expectedOutput": {}
+    }
+  ],
+  "contentType": "test"
+}

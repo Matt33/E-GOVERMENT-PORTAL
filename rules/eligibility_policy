@@ -1,0 +1,113 @@
+{
+  "edges": [
+    {
+      "id": "edge-1",
+      "type": "edge",
+      "sourceId": "input-1",
+      "targetId": "ed85370c-7ffd-4204-96be-dbb79ff89fac",
+      "sourceHandle": ""
+    }
+  ],
+  "nodes": [
+    {
+      "id": "input-1",
+      "name": "InpuT",
+      "type": "inputNode",
+      "content": {
+        "schema": "{\r\n  \"type\": \"object\",\r\n  \"properties\": {\r\n    \"isStudent\": { \"type\": \"boolean\" },\r\n    \"applicationsThisYear\": { \"type\": \"number\" },\r\n    \"applicationDate\": { \"type\": \"string\", \"format\": \"date\" }\r\n  },\r\n  \"required\": [\"isStudent\", \"applicationsThisYear\", \"applicationDate\"]\r\n}"
+      },
+      "position": {
+        "x": 110,
+        "y": 115
+      }
+    },
+    {
+      "id": "ed85370c-7ffd-4204-96be-dbb79ff89fac",
+      "name": "Policy Table",
+      "type": "decisionTableNode",
+      "content": {
+        "rules": [
+          {
+            "_id": "f3d08de2-a972-4abf-850e-adf4a77a5600",
+            "18a42bbe-1555-490b-83d4-fa15982e1d5e": "true",
+            "52b89950-4153-42a0-ba31-5cefaf7890e2": "true",
+            "d59e5601-ca28-4261-a69c-a758fcd77c8c": "0",
+            "de77c05c-bf27-4a56-bdc9-7208a40272bb": "\"-\"",
+            "febed336-dfbf-439b-bc17-f24a004fa3ce": "d($).month() in [7..10]"
+          },
+          {
+            "_id": "c65ae7d9-c798-4959-9520-0e6bae955292",
+            "18a42bbe-1555-490b-83d4-fa15982e1d5e": "false",
+            "52b89950-4153-42a0-ba31-5cefaf7890e2": "false",
+            "d59e5601-ca28-4261-a69c-a758fcd77c8c": "0",
+            "de77c05c-bf27-4a56-bdc9-7208a40272bb": "\"Must be a student\"",
+            "febed336-dfbf-439b-bc17-f24a004fa3ce": "d($).month() in [7..10]"
+          },
+          {
+            "_id": "f99da50e-b488-4187-8943-7a8b6dcf7003",
+            "18a42bbe-1555-490b-83d4-fa15982e1d5e": "true",
+            "52b89950-4153-42a0-ba31-5cefaf7890e2": "false",
+            "d59e5601-ca28-4261-a69c-a758fcd77c8c": ">= 1",
+            "de77c05c-bf27-4a56-bdc9-7208a40272bb": "\"Already applied this year\"",
+            "febed336-dfbf-439b-bc17-f24a004fa3ce": "d($).month() in [7..10]"
+          },
+          {
+            "_id": "de517a8f-61f7-4fd3-a755-5202b5a62619",
+            "18a42bbe-1555-490b-83d4-fa15982e1d5e": "true",
+            "52b89950-4153-42a0-ba31-5cefaf7890e2": "false",
+            "d59e5601-ca28-4261-a69c-a758fcd77c8c": "0",
+            "de77c05c-bf27-4a56-bdc9-7208a40272bb": "\"Application period closed\"",
+            "febed336-dfbf-439b-bc17-f24a004fa3ce": "d($).month() not in [7..10]"
+          },
+          {
+            "_id": "2cc690dc-9c0d-4eff-97c6-d13b554d35d4",
+            "18a42bbe-1555-490b-83d4-fa15982e1d5e": "false",
+            "52b89950-4153-42a0-ba31-5cefaf7890e2": "false",
+            "d59e5601-ca28-4261-a69c-a758fcd77c8c": ">= 1",
+            "de77c05c-bf27-4a56-bdc9-7208a40272bb": "\"Must be a student & Application period closed\"",
+            "febed336-dfbf-439b-bc17-f24a004fa3ce": "d($).month() not in [7..10]"
+          }
+        ],
+        "inputs": [
+          {
+            "id": "18a42bbe-1555-490b-83d4-fa15982e1d5e",
+            "name": "isStudent",
+            "field": "isStudent"
+          },
+          {
+            "id": "d59e5601-ca28-4261-a69c-a758fcd77c8c",
+            "name": "applicationsThisYear",
+            "field": "applicationsThisYear"
+          },
+          {
+            "id": "febed336-dfbf-439b-bc17-f24a004fa3ce",
+            "name": "applicationDate",
+            "field": "applicationDate"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "52b89950-4153-42a0-ba31-5cefaf7890e2",
+            "name": "eligible",
+            "field": "eligible"
+          },
+          {
+            "id": "de77c05c-bf27-4a56-bdc9-7208a40272bb",
+            "name": "reason",
+            "field": "reason"
+          }
+        ],
+        "hitPolicy": "first",
+        "inputField": null,
+        "outputPath": null,
+        "passThrough": true,
+        "executionMode": "single"
+      },
+      "position": {
+        "x": 430,
+        "y": 114
+      }
+    }
+  ],
+  "contentType": "graph"
+}

@@ -1,0 +1,16 @@
+{
+  "filePath": "eligibility_policy",
+  "testCases": [
+    {
+      "id": "70eeb16f-cddf-43dd-9cf4-8ba03d12f73b",
+      "name": "New test case",
+      "input": {
+        "isStudent": true,
+        "applicationDate": "2026-08-15",
+        "applicationsThisYear": 0
+      },
+      "expectedOutput": {}
+    }
+  ],
+  "contentType": "test"
+}
