@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Government Portal | Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-landmark"></i> E-Gov Portal
+            </a>
+            <div class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="pages/services.html" class="nav-link">Services</a>
+                <a href="pages/contact.html" class="nav-link">Contact</a>
+                <a href="pages/login.html" class="btn btn-outline" style="margin-left: 1rem;">Login / Register</a>
+            </div>
+            <div class="nav-toggle" id="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="badge fade-up">Digital Government Services</span>
+            <h1 class="fade-up delay-1">Secure, Fast, & Transparent <span>Citizen Services</span></h1>
+            <p class="fade-up delay-2">Access hundreds of government services from the comfort of your home. Apply for documents, pay bills, and manage your civic life all in one secure gateway.</p>
+            <div class="hero-buttons fade-up delay-3">
+                <a href="pages/services.html" class="btn btn-primary">Apply for Services <i class="fas fa-arrow-right"></i></a>
+                <a href="#how-it-works" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <a href="#featured-services">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </header>
+
+    <!-- Announcements Ticker -->
+    <div class="announcements">
+        <div class="announcement-label"><i class="fas fa-bell"></i> LATEST NEWS</div>
+        <div class="marquee-container">
+            <div class="marquee">
+                <span>The deadline for national ID renewal has been extended to November 30th.</span>
+                <span class="separator">•</span>
+                <span>New scholarship opportunities are now available for university students.</span>
+                <span class="separator">•</span>
+                <span>The tax filing portal will undergo maintenance on Sunday from 2 AM to 6 AM.</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Services -->
+    <section id="featured-services" class="section">
+        <div class="container">
+            <div class="section-title text-center reveal">
+                <h2>Featured Services</h2>
+                <p>Quick access to the most requested digital services.</p>
+                <div class="underline"></div>
+            </div>
+
+            <div class="service-grid">
+                <div class="service-card glass reveal delay-1">
+                    <div class="card-icon"><i class="fas fa-id-card"></i></div>
+                    <h3>ID Renewal</h3>
+                    <p>Renew your national ID or update your details online without visiting the office.</p>
+                    <a href="pages/services.html#id-renewal" class="card-link">Apply Now <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="service-card glass reveal delay-2">
+                    <div class="card-icon"><i class="fas fa-building"></i></div>
+                    <h3>Business License Request</h3>
+                    <p>Request a new business license or renew an existing one. Submit documents and pay online.</p>
+                    <a href="pages/services.html#business-license" class="card-link">Apply Now <i class="fas fa-arrow-right"></i></a>
+                </div>
+
+                <div class="service-card glass reveal delay-3">
+                    <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Scholarship Request</h3>
+                    <p>Submit your scholarship application, upload documents, and track your status online.</p>
+                    <a href="pages/services.html#scholarship" class="card-link">Apply Now <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <div class="text-center" style="margin-top: 3rem;">
+                <a href="pages/services.html" class="btn btn-outline reveal">View Services</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="section bg-light" id="statistics">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item reveal delay-1">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-number" data-target="2500000">0</div>
+                    <div class="stat-label">Citizens Registered</div>
+                </div>
+                <div class="stat-item reveal delay-2">
+                    <div class="stat-icon"><i class="fas fa-clipboard-check"></i></div>
+                    <div class="stat-number" data-target="850000">0</div>
+                    <div class="stat-label">Applications Processed</div>
+                </div>
+                <div class="stat-item reveal delay-3">
+                    <div class="stat-icon"><i class="fas fa-server"></i></div>
+                    <div class="stat-number" data-target="150">0</div>
+                    <div class="stat-label">Digital Services</div>
+                </div>
+                <div class="stat-item reveal delay-4">
+                    <div class="stat-icon"><i class="fas fa-star"></i></div>
+                    <div class="stat-number" data-target="98">0</div>
+                    <div class="stat-label">Satisfaction Rate (%)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How it Works -->
+    <section id="how-it-works" class="section">
+        <div class="container">
+            <div class="section-title text-center reveal">
+                <h2>How It Works</h2>
+                <p>Three simple steps to access government services digitally.</p>
+                <div class="underline"></div>
+            </div>
+
+            <div class="steps-container">
+                <div class="step reveal delay-1">
+                    <div class="step-icon">1</div>
+                    <div class="step-content">
+                        <h3>Create Account</h3>
+                        <p>Register securely using your national identification number and verify your identity.</p>
+                    </div>
+                </div>
+                <div class="step-connector reveal delay-2"></div>
+                <div class="step reveal delay-3">
+                    <div class="step-icon">2</div>
+                    <div class="step-content">
+                        <h3>Apply & Submit</h3>
+                        <p>Select your required service, fill out the digital form, and safely upload required documents.</p>
+                    </div>
+                </div>
+                <div class="step-connector reveal delay-4"></div>
+                <div class="step reveal delay-5">
+                    <div class="step-icon">3</div>
+                    <div class="step-content">
+                        <h3>Track & Receive</h3>
+                        <p>Monitor your application status in real-time and download approved digital certificates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <a href="index.html" class="logo footer-logo">
+                        <i class="fas fa-landmark"></i> E-Gov Portal
+                    </a>
+                    <p>Providing seamless, transparent, and secure digital services to citizens nationwide. Modernizing governance for the 21st century.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="pages/services.html">All Services</a></li>
+                        <li><a href="#">Announcements</a></li>
+                        <li><a href="#">Help & Support</a></li>
+                        <li><a href="pages/contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Accessibility</a></li>
+                        <li><a href="#">Security Guidelines</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Contact Info</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 100 Government Plaza, Capital City, 10001</li>
+                        <li><i class="fas fa-phone"></i> 1-800-GOV-HELP (Toll Free)</li>
+                        <li><i class="fas fa-envelope"></i> support@egov.portal.gov</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 8:00 AM - 5:00 PM</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 E-Government Digital Portal. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
