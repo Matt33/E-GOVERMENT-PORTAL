@@ -4,10 +4,10 @@ import { PoliciesService } from './policies.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Policy } from './policies.entity';
 
-import { ScholarshipApplication } from '../scholarship/scholarship.entity';
+import { ScholarshipApplicationEntity } from '../scholarship/entities/scholarship-application.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Policy, ScholarshipApplication])],
+  imports: [TypeOrmModule.forFeature([Policy, ScholarshipApplicationEntity])],
   controllers: [PoliciesController],
   providers: [PoliciesService],
   exports: [PoliciesService],

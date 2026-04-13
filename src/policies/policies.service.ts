@@ -2,13 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { ZenEngine } from '@gorules/zen-engine';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between } from 'typeorm';
-import { ScholarshipApplication } from '../scholarship/scholarship.entity';
+import { ScholarshipApplicationEntity } from '../scholarship/entities/scholarship-application.entity';
 import * as fs from 'fs';
 import * as path from 'path';
+import { IsBoolean, IsOptional, IsString } from 'class-validator';
 
 export class EvaluatePolicyDto {
+  @IsString()
   applicantId: string;
+
+  @IsBoolean()
   isStudent: boolean;
+
+  @IsOptional()
+  @IsString()
+  applicationDate?: string;
 }
 
 /** Normalize reason from rule output (strip surrounding quotes). */
@@ -50,10 +58,13 @@ function evaluateEligibilityInCode(
 }
 
 /** Unwrap Zen result: may be { eligible, reason } or { [nodeId]: { eligible, reason } }. */
-function unwrapRuleResult(result: unknown): { eligible?: unknown; reason?: unknown } | null {
+function unwrapRuleResult(
+  result: unknown,
+): { eligible?: unknown; reason?: unknown } | null {
   if (result == null || typeof result !== 'object') return null;
   const obj = result as Record<string, unknown>;
-  if ('eligible' in obj && 'reason' in obj) return obj as { eligible?: unknown; reason?: unknown };
+  if ('eligible' in obj && 'reason' in obj)
+    return obj as { eligible?: unknown; reason?: unknown };
   const first = Object.values(obj).find(
     (v) => v != null && typeof v === 'object' && 'eligible' in (v as object),
   );
@@ -63,8 +74,8 @@ function unwrapRuleResult(result: unknown): { eligible?: unknown; reason?: unkno
 @Injectable()
 export class PoliciesService {
   constructor(
-    @InjectRepository(ScholarshipApplication)
-    private readonly applicationRepo: Repository<ScholarshipApplication>,
+    @InjectRepository(ScholarshipApplicationEntity)
+    private readonly applicationRepo: Repository<ScholarshipApplicationEntity>,
   ) {}
 
   /**
@@ -79,12 +90,13 @@ export class PoliciesService {
 
     const applicationsThisYearCount = await this.applicationRepo.count({
       where: {
-        applicantId: dto.applicantId,
+        businessId: dto.applicantId,
         createdAt: Between(startOfYear, endOfYear),
       },
     });
 
-    const applicationDate = new Date().toISOString().split('T')[0];
+    const applicationDate =
+      dto.applicationDate?.trim() || new Date().toISOString().split('T')[0];
 
     try {
       const engine = new ZenEngine();
@@ -116,8 +128,7 @@ export class PoliciesService {
       let reason: string;
 
       if (table != null) {
-        const fromRule =
-          table.eligible === true || table.eligible === 'true';
+        const fromRule = table.eligible === true || table.eligible === 'true';
         const rawReason = table.reason;
         if (rawReason != null && String(rawReason).trim() !== '') {
           eligible = fromRule;

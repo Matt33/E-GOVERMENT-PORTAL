@@ -1,5 +1,8 @@
-/* Scholarship portal — status badges, table, cards */
+/* Scholarship portal — status badges, table, cards, wizard */
 
+/* ================================================================
+   CARDS
+   ================================================================ */
 .scholarship-card {
     background: var(--bg-white);
     border-radius: 12px;
@@ -25,13 +28,16 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
+    margin-bottom: 1rem;
 }
 
 @media (max-width: 600px) {
     .form-row { grid-template-columns: 1fr; }
 }
 
-/* Status badges */
+/* ================================================================
+   STATUS BADGES
+   ================================================================ */
 .status-badge {
     display: inline-block;
     padding: 0.35rem 0.75rem;
@@ -41,13 +47,29 @@
     text-transform: uppercase;
 }
 
-.status-badge.submitted { background: #dbeafe; color: #1e40af; }
+.status-badge.submitted,
+.status-badge.pending { background: #dbeafe; color: #1e40af; }
 .status-badge.under_review { background: #fef3c7; color: #b45309; }
-.status-badge.approved { background: #d1fae5; color: #047857; }
+.status-badge.approved,
+.status-badge.accepted { background: #d1fae5; color: #047857; }
 .status-badge.rejected { background: #fee2e2; color: #b91c1c; }
 .status-badge.draft { background: #f1f5f9; color: #475569; }
 
-/* Table */
+/* Clickable application links in tables */
+.app-link {
+    color: var(--primary-color, #1a3a6b);
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+.app-link:hover {
+    text-decoration: underline;
+    color: var(--secondary-color, #2b6cb0);
+}
+
+/* ================================================================
+   TABLE
+   ================================================================ */
 .scholarship-table {
     width: 100%;
     border-collapse: collapse;
@@ -70,6 +92,11 @@
     background: #f8fafc;
 }
 
+.scholarship-table td input.form-control {
+    padding: 0.45rem 0.6rem;
+    font-size: 0.9rem;
+}
+
 /* Action buttons in table */
 .scholarship-actions {
     display: flex;
@@ -82,10 +109,15 @@
     font-size: 0.85rem;
 }
 
+/* ================================================================
+   ALERTS
+   ================================================================ */
 .alert {
     padding: 0.75rem 1rem;
     border-radius: 8px;
-    margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 
 .alert-success { background: #d1fae5; color: #047857; }
@@ -94,4 +126,174 @@
 .welcome-msg {
     margin-bottom: 1.5rem;
     color: var(--text-light);
+}
+
+/* ================================================================
+   WIZARD — STEP INDICATOR
+   ================================================================ */
+.wizard-steps {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.wizard-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.wizard-step::before {
+    content: '';
+    position: absolute;
+    top: 18px;
+    left: -50%;
+    width: 100%;
+    height: 3px;
+    background: var(--bg-border, #e2e8f0);
+    z-index: -1;
+}
+
+.wizard-step:first-child::before {
+    display: none;
+}
+
+.wizard-step.completed::before {
+    background: var(--secondary, #2b6cb0);
+}
+
+.wizard-step.active::before {
+    background: linear-gradient(to right, var(--secondary, #2b6cb0) 50%, var(--bg-border, #e2e8f0) 50%);
+}
+
+.wizard-step-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 0.95rem;
+    border: 3px solid var(--bg-border, #e2e8f0);
+    background: var(--bg-white, #fff);
+    color: var(--text-muted, #718096);
+    transition: all 0.25s ease;
+}
+
+.wizard-step.active .wizard-step-num {
+    border-color: var(--primary, #1a3a6b);
+    background: var(--primary, #1a3a6b);
+    color: #fff;
+    box-shadow: 0 0 0 4px rgba(26, 58, 107, 0.15);
+}
+
+.wizard-step.completed .wizard-step-num {
+    border-color: var(--secondary, #2b6cb0);
+    background: var(--secondary, #2b6cb0);
+    color: #fff;
+}
+
+.wizard-step-label {
+    margin-top: 0.5rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--text-muted, #718096);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.wizard-step.active .wizard-step-label {
+    color: var(--primary, #1a3a6b);
+}
+
+.wizard-step.completed .wizard-step-label {
+    color: var(--secondary, #2b6cb0);
+}
+
+@media (max-width: 480px) {
+    .wizard-step-label { font-size: 0.7rem; }
+    .wizard-step-num { width: 30px; height: 30px; font-size: 0.8rem; }
+}
+
+/* ================================================================
+   WIZARD — PANELS & NAVIGATION
+   ================================================================ */
+.wizard-panel {
+    border: none;
+    padding: 2rem;
+    margin: 0;
+}
+
+.wizard-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--bg-border, #e2e8f0);
+}
+
+/* ================================================================
+   REVIEW / SUMMARY SECTION
+   ================================================================ */
+.review-section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--bg-border, #e2e8f0);
+}
+
+.review-section:last-of-type {
+    border-bottom: none;
+}
+
+.review-section h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.75rem;
+    color: var(--secondary, #2b6cb0);
+}
+
+.review-dl {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 0.35rem 1rem;
+    font-size: 0.95rem;
+}
+
+.review-dl dt {
+    font-weight: 600;
+    color: var(--text-secondary, #4a5568);
+}
+
+.review-dl dd {
+    margin: 0;
+    color: var(--text-primary, #1a202c);
+}
+
+@media (max-width: 600px) {
+    .review-dl {
+        grid-template-columns: 1fr;
+    }
+    .review-dl dt {
+        margin-top: 0.5rem;
+    }
+}
+
+/* ================================================================
+   BENEFICIARY ROW — REMOVE BUTTON
+   ================================================================ */
+.btn-remove-row {
+    padding: 0.35rem 0.55rem !important;
+    min-height: auto !important;
+    color: var(--error, #c53030) !important;
+    border-color: var(--error, #c53030) !important;
+}
+
+.btn-remove-row:hover {
+    background: var(--error-bg, #fff5f5) !important;
 }

@@ -1,0 +1,67 @@
+{
+  "nodes": [
+    {
+      "id": "input-1",
+      "name": "input",
+      "type": "inputNode",
+      "content": {
+        "schema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"licenseStatus\": { \"type\": \"string\" },\n    \"yearsActive\": { \"type\": \"number\" }\n  },\n  \"required\": [\"licenseStatus\", \"yearsActive\"]\n}\n"
+      },
+      "position": { "x": -10, "y": 125 }
+    },
+    {
+      "id": "dt-eligibility",
+      "name": "Eligibility Rules",
+      "type": "decisionTableNode",
+      "content": {
+        "hitPolicy": "first",
+        "rules": [
+          {
+            "_id": "rule-not-valid",
+            "col-license": "!= \"Valid\"",
+            "col-years": "",
+            "out-eligible": "false",
+            "out-reason": "\"Business license must be Valid\""
+          },
+          {
+            "_id": "rule-too-young",
+            "col-license": "== \"Valid\"",
+            "col-years": "<= 2",
+            "out-eligible": "false",
+            "out-reason": "\"Business must be active for more than 2 years\""
+          },
+          {
+            "_id": "rule-eligible",
+            "col-license": "== \"Valid\"",
+            "col-years": "> 2",
+            "out-eligible": "true",
+            "out-reason": "\"Eligible\""
+          }
+        ],
+        "inputs": [
+          { "id": "col-license", "name": "License Status", "field": "licenseStatus" },
+          { "id": "col-years", "name": "Years Active", "field": "yearsActive" }
+        ],
+        "outputs": [
+          { "id": "out-eligible", "name": "Eligible", "field": "eligible" },
+          { "id": "out-reason", "name": "Reason", "field": "reason" }
+        ],
+        "passThrough": true,
+        "inputField": null,
+        "outputPath": null,
+        "executionMode": "single"
+      },
+      "position": { "x": 430, "y": 114 }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-1",
+      "type": "edge",
+      "sourceId": "input-1",
+      "targetId": "dt-eligibility",
+      "sourceHandle": ""
+    }
+  ],
+  "contentType": "graph"
+}

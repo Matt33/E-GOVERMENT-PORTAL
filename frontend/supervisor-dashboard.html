@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Supervisor Dashboard | E-Government Portal</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="navbar solid" id="navbar">
+      <div class="nav-container">
+        <a href="./index.html" class="logo"
+          ><i class="fas fa-landmark"></i> E-Gov Portal</a
+        >
+        <div class="nav-menu" id="nav-menu">
+          <a href="./index.html" class="nav-link">Home</a>
+          <a href="./supervisor-dashboard.html" class="nav-link active"
+            >Supervisor Tasks</a
+          >
+          <button
+            id="logout-btn"
+            class="btn btn-outline"
+            style="margin-left: 1rem"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <div
+      id="toast"
+      style="
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        border-radius: 4px;
+        color: white;
+        font-weight: bold;
+        display: none;
+        max-width: 300px;
+        z-index: 1000;
+      "
+    ></div>
+
+    <main
+      class="container"
+      style="padding: 2rem 1rem; max-width: 1000px; margin-top: 80px"
+    >
+      <h1>Supervisor / Admin Dashboard</h1>
+      <p style="color: #666; margin-bottom: 2rem">
+        Manage pending applications across all services
+      </p>
+
+      <!-- ID Renewal Tasks -->
+      <section
+        style="
+          background: white;
+          padding: 2rem;
+          border-radius: 8px;
+          margin-bottom: 2rem;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <h2>ID Renewal Tasks</h2>
+        <div
+          id="id-renewal-tasks"
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+          "
+        ></div>
+      </section>
+
+      <!-- Scholarship Tasks -->
+      <section
+        style="
+          background: white;
+          padding: 2rem;
+          border-radius: 8px;
+          margin-bottom: 2rem;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <h2>Scholarship Tasks</h2>
+        <div
+          id="scholarship-tasks"
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+          "
+        ></div>
+      </section>
+
+      <!-- Business License Tasks -->
+      <section
+        style="
+          background: white;
+          padding: 2rem;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <h2>Business License Tasks</h2>
+        <div
+          id="business-license-tasks"
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+          "
+        ></div>
+      </section>
+    </main>
+
+    <script src="./js/auth.js?v=4"></script>
+    <script src="./js/supervisor-dashboard.js"></script>
+  </body>
+</html>

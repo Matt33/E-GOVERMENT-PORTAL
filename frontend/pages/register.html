@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Register for a digital citizen account to access portal services." />
+    <title>E-Government Portal | Citizen Registration</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: var(--bg-main);
+      }
+      .footer {
+        margin-top: auto;
+      }
+      .page-wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Skip Navigation -->
+    <a href="#registration-form" class="skip-link">Skip to registration form</a>
+
+    <div class="page-wrapper">
+      <nav class="navbar solid" id="navbar" aria-label="Main navigation">
+        <div class="nav-container">
+          <a href="../index.html" class="logo" aria-label="E-Government Portal — Home">
+            <i class="fas fa-landmark" aria-hidden="true"></i> E-Gov Portal
+          </a>
+          <button class="nav-toggle" id="nav-toggle"
+                  aria-controls="nav-menu"
+                  aria-expanded="false"
+                  aria-label="Open navigation menu">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+          </button>
+          <div class="nav-menu" id="nav-menu" role="list">
+            <a href="../index.html" class="nav-link" role="listitem">Home</a>
+            <a href="services.html" class="nav-link" role="listitem">Services</a>
+            <a href="./login.html" class="nav-link" role="listitem">Login</a>
+          </div>
+        </div>
+      </nav>
+
+      <header class="page-header">
+        <div class="container fade-up">
+          <h1>Create Account</h1>
+          <p>Join the digital citizen portal for secure access.</p>
+        </div>
+      </header>
+
+      <main id="registration-form" class="section" style="padding-top: 0; flex: 1">
+        <div class="container">
+          <div class="form-container fade-up delay-1">
+            <div class="form-wrapper">
+              <h2 style="margin-bottom: 0.5rem">Citizen Registration</h2>
+              <p style="color: var(--text-light); margin-bottom: 2rem">
+                Create a portal account to access digital services securely.
+              </p>
+
+              <div
+                id="alertBox"
+                class="alert alert-error"
+                role="alert"
+                aria-live="assertive"
+                aria-atomic="true"
+                style="display: none; margin-bottom: 1rem"
+              ></div>
+
+              <form id="registerForm" novalidate aria-label="Citizen registration form">
+                <div class="input-group">
+                  <label for="firstName" class="form-label">
+                    First Name <span class="required" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    class="form-control"
+                    placeholder="Enter your first name"
+                    aria-required="true"
+                    aria-describedby="firstName-error"
+                  />
+                  <span id="firstName-error" class="error-message" role="alert">Please enter your first name.</span>
+                </div>
+
+                <div class="input-group">
+                  <label for="lastName" class="form-label">
+                    Last Name <span class="required" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    class="form-control"
+                    placeholder="Enter your last name"
+                    aria-required="true"
+                    aria-describedby="lastName-error"
+                  />
+                  <span id="lastName-error" class="error-message" role="alert">Please enter your last name.</span>
+                </div>
+
+                <div class="input-group">
+                  <label for="username" class="form-label">
+                    Username <span class="required" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="username"
+                    class="form-control"
+                    placeholder="e.g. applicant1"
+                    aria-required="true"
+                    aria-describedby="username-error"
+                  />
+                  <span id="username-error" class="error-message" role="alert">Please choose a username.</span>
+                </div>
+
+                <div class="input-group">
+                  <label for="email" class="form-label">
+                    Email <span class="required" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    class="form-control"
+                    placeholder="example@email.com"
+                    aria-required="true"
+                    aria-describedby="email-error"
+                  />
+                  <span id="email-error" class="error-message" role="alert">Please provide a valid email address.</span>
+                </div>
+
+                <div class="input-group">
+                  <label for="password" class="form-label">
+                    Password <span class="required" aria-hidden="true">*</span>
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    class="form-control"
+                    placeholder="At least 8 characters"
+                    aria-required="true"
+                    aria-describedby="password-error"
+                  />
+                  <span id="password-error" class="error-message" role="alert">Password is required.</span>
+                </div>
+
+                <button
+                  type="submit"
+                  class="btn btn-primary btn-block"
+                  id="regBtn"
+                >
+                  <i class="fas fa-user-plus" aria-hidden="true" style="margin-right: 0.5rem;"></i> Secure Registration
+                </button>
+              </form>
+
+              <div
+                id="successCard"
+                style="display: none; text-align: center; margin-top: 1rem"
+                aria-live="polite"
+              >
+                <i
+                  class="fas fa-check-circle"
+                  aria-hidden="true"
+                  style="font-size: 3rem; color: var(--success); margin-bottom: 1rem"
+                ></i>
+                <h2>Account Created Successfully</h2>
+                <p>You can now log in securely with your new credentials.</p>
+                <a
+                  href="./login.html"
+                  class="btn btn-primary"
+                  style="margin-top: 1rem"
+                  >Proceed to Login <i class="fas fa-arrow-right" aria-hidden="true"></i></a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer class="footer" role="contentinfo" style="padding-top: 2rem">
+        <div class="container">
+          <div class="footer-bottom" style="border-top: none">
+            <p>&copy; 2026 E-Government Digital Portal. All rights reserved.</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+    <script src="../js/auth.js?v=4"></script>
+    <script src="../js/script.js?v=3"></script>
+    <script>
+      function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+
+      function setFieldError(fieldId, message) {
+        const input = document.getElementById(fieldId);
+        const error = input?.parentElement?.querySelector('.error-message');
+        if (error) {
+          error.textContent = message;
+          error.style.display = message ? 'block' : 'none';
+        }
+        if (input) {
+          input.classList.toggle('invalid', !!message);
+        }
+      }
+
+      document
+        .getElementById('registerForm')
+        .addEventListener('submit', async function (event) {
+          event.preventDefault();
+
+          const alertBox = document.getElementById('alertBox');
+          const btn = document.getElementById('regBtn');
+          const firstName = document.getElementById('firstName').value.trim();
+          const lastName = document.getElementById('lastName').value.trim();
+          const username = document.getElementById('username').value.trim();
+          const email = document.getElementById('email').value.trim();
+          const password = document.getElementById('password').value;
+
+          alertBox.style.display = 'none';
+          setFieldError(
+            'firstName',
+            firstName ? '' : 'Please enter your first name.',
+          );
+          setFieldError('lastName', lastName ? '' : 'Please enter your last name.');
+          setFieldError('username', username ? '' : 'A username is required.');
+          setFieldError(
+            'email',
+            email && validateEmail(email) ? '' : 'Please provide a valid email address.',
+          );
+          setFieldError(
+            'password',
+            password.length >= 8
+              ? ''
+              : 'Password must be at least 8 characters long.',
+          );
+
+          if (
+            !firstName ||
+            !lastName ||
+            !username ||
+            !email ||
+            !validateEmail(email) ||
+            password.length < 8
+          ) {
+            return;
+          }
+
+          btn.disabled = true;
+          btn.innerText = 'Creating account...';
+
+          try {
+            const response = await window.EgovAuth.apiFetch('/auth/register', {
+              method: 'POST',
+              body: JSON.stringify({
+                firstName,
+                lastName,
+                username,
+                email,
+                password,
+              }),
+            });
+
+            if (!response.ok) {
+              const error = await response.json().catch(() => ({}));
+              throw new Error(error.message || 'Registration failed due to a system error. Please try again.');
+            }
+
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('successCard').style.display = 'block';
+          } catch (error) {
+            alertBox.textContent =
+              error.message ||
+              'Unable to connect to the server. Please check your connection or try again later.';
+            alertBox.style.display = 'block';
+          } finally {
+            btn.disabled = false;
+            btn.innerText = 'Register';
+          }
+        });
+    </script>
+  </body>
+</html>

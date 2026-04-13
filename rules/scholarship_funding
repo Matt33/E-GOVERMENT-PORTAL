@@ -1,0 +1,69 @@
+{
+  "nodes": [
+    {
+      "id": "input-1",
+      "name": "input",
+      "type": "inputNode",
+      "content": {
+        "schema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"industry\": { \"type\": \"string\" },\n    \"trainingCost\": { \"type\": \"number\" }\n  },\n  \"required\": [\"industry\", \"trainingCost\"]\n}\n"
+      },
+      "position": { "x": -10, "y": 125 }
+    },
+    {
+      "id": "dt-funding",
+      "name": "Funding Match Rules",
+      "type": "decisionTableNode",
+      "content": {
+        "hitPolicy": "first",
+        "rules": [
+          {
+            "_id": "rule-tech",
+            "col-industry": "== \"TECH_AI\"",
+            "out-percent": "80"
+          },
+          {
+            "_id": "rule-health",
+            "col-industry": "== \"HEALTHCARE\"",
+            "out-percent": "70"
+          },
+          {
+            "_id": "rule-mfg",
+            "col-industry": "== \"MANUFACTURING\"",
+            "out-percent": "60"
+          },
+          {
+            "_id": "rule-retail",
+            "col-industry": "== \"RETAIL\"",
+            "out-percent": "50"
+          },
+          {
+            "_id": "rule-default",
+            "col-industry": "",
+            "out-percent": "40"
+          }
+        ],
+        "inputs": [
+          { "id": "col-industry", "name": "Industry", "field": "industry" }
+        ],
+        "outputs": [
+          { "id": "out-percent", "name": "Coverage Percent", "field": "coveragePercent" }
+        ],
+        "passThrough": true,
+        "inputField": null,
+        "outputPath": null,
+        "executionMode": "single"
+      },
+      "position": { "x": 430, "y": 114 }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-1",
+      "type": "edge",
+      "sourceId": "input-1",
+      "targetId": "dt-funding",
+      "sourceHandle": ""
+    }
+  ],
+  "contentType": "graph"
+}

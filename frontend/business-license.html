@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Business License Application | E-Government Portal</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="navbar solid" id="navbar">
+      <div class="nav-container">
+        <a href="../index.html" class="logo"
+          ><i class="fas fa-landmark"></i> E-Gov Portal</a
+        >
+        <div class="nav-menu" id="nav-menu">
+          <a href="../index.html" class="nav-link">Home</a>
+          <a href="services.html" class="nav-link">Services</a>
+          <a href="dashboard.html" class="nav-link">Dashboard</a>
+          <button
+            id="logout-btn"
+            class="btn btn-outline"
+            style="margin-left: 1rem"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main
+      class="container"
+      style="padding: 2rem 1rem; max-width: 900px; margin-top: 80px"
+    >
+      <h1>Business License Application</h1>
+      <p style="color: #666; margin-bottom: 2rem">
+        Apply for a business license below
+      </p>
+
+      <!-- Application Form -->
+      <div
+        style="
+          background: white;
+          padding: 2rem;
+          border-radius: 8px;
+          margin-bottom: 2rem;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <form id="business-license-form">
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 1.5rem;
+              margin-bottom: 1.5rem;
+            "
+          >
+            <div>
+              <label for="ownerName" class="form-label">Owner Name *</label>
+              <input type="text" id="ownerName" class="form-control" required />
+              <span
+                class="error-text"
+                style="display: none; color: red; font-size: 0.85rem"
+              ></span>
+            </div>
+            <div>
+              <label for="businessName" class="form-label"
+                >Business Name *</label
+              >
+              <input
+                type="text"
+                id="businessName"
+                class="form-control"
+                required
+              />
+              <span
+                class="error-text"
+                style="display: none; color: red; font-size: 0.85rem"
+              ></span>
+            </div>
+          </div>
+
+          <div
+            style="
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 1.5rem;
+              margin-bottom: 1.5rem;
+            "
+          >
+            <div>
+              <label for="nationalId" class="form-label">National ID *</label>
+              <input
+                type="text"
+                id="nationalId"
+                class="form-control"
+                required
+              />
+              <span
+                class="error-text"
+                style="display: none; color: red; font-size: 0.85rem"
+              ></span>
+            </div>
+            <div>
+              <label for="businessType" class="form-label"
+                >Business Type *</label
+              >
+              <select id="businessType" class="form-control" required>
+                <option value="">-- Select --</option>
+                <option value="Retail">Retail</option>
+                <option value="Service">Service</option>
+                <option value="Manufacturing">Manufacturing</option>
+                <option value="Tech">Tech</option>
+              </select>
+              <span
+                class="error-text"
+                style="display: none; color: red; font-size: 0.85rem"
+              ></span>
+            </div>
+          </div>
+
+          <div
+            id="message"
+            style="
+              padding: 1rem;
+              border-radius: 4px;
+              margin-bottom: 1.5rem;
+              display: none;
+            "
+          ></div>
+
+          <button type="submit" id="submit-btn" class="btn btn-primary">
+            <span id="btn-text">Submit Application</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- Past Submissions -->
+      <div
+        style="
+          background: white;
+          padding: 2rem;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <h2>Your Past Submissions</h2>
+        <div id="requests-container" style="overflow-x: auto">
+          <table style="width: 100%; border-collapse: collapse">
+            <thead style="background: #f5f5f5">
+              <tr>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Request ID
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Business Name
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Type
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Status
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Date Submitted
+                </th>
+              </tr>
+            </thead>
+            <tbody id="requests-tbody">
+              <tr>
+                <td
+                  colspan="5"
+                  style="padding: 1rem; text-align: center; color: #999"
+                >
+                  Loading...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <script src="../js/auth.js?v=4"></script>
+    <script src="../js/business-license.js"></script>
+  </body>
+</html>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:flowable="http://flowable.org/bpmn"
+             targetNamespace="http://egov.portal/scholarship"
+             xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL
+                                 http://www.omg.org/spec/BPMN/20100524/MODEL/BPMN20.xsd">
+
+  <process id="scholarship-business-process" name="Business Scholarship Request Process" isExecutable="true">
+
+    <!-- Start: Application submitted -->
+    <startEvent id="startEvent" name="Application Submitted" />
+
+    <sequenceFlow id="flow-start-to-verify" sourceRef="startEvent" targetRef="verifyLicenseTask" />
+
+    <!-- Service Task: Auto-verify business license -->
+    <serviceTask id="verifyLicenseTask"
+                 name="Verify Business License"
+                 flowable:type="http">
+      <documentation>Automatically verifies the business license status via the backend API.</documentation>
+    </serviceTask>
+
+    <sequenceFlow id="flow-verify-to-review" sourceRef="verifyLicenseTask" targetRef="supervisorReviewTask" />
+
+    <!-- User Task: Admin/Supervisor reviews the application -->
+    <userTask id="supervisorReviewTask"
+              name="Review Scholarship Application"
+              flowable:candidateGroups="admin,supervisor">
+      <documentation>An admin or supervisor reviews the scholarship application and makes an approval decision.</documentation>
+    </userTask>
+
+    <sequenceFlow id="flow-review-to-gateway" sourceRef="supervisorReviewTask" targetRef="approvalGateway" />
+
+    <!-- Exclusive Gateway: Approved or Rejected -->
+    <exclusiveGateway id="approvalGateway" name="Approval Decision" />
+
+    <sequenceFlow id="flow-gateway-approved" sourceRef="approvalGateway" targetRef="approvedEnd">
+      <conditionExpression xsi:type="tFormalExpression">${approved == true}</conditionExpression>
+    </sequenceFlow>
+
+    <sequenceFlow id="flow-gateway-rejected" sourceRef="approvalGateway" targetRef="rejectedEnd">
+      <conditionExpression xsi:type="tFormalExpression">${approved == false}</conditionExpression>
+    </sequenceFlow>
+
+    <!-- End Event: Approved -->
+    <endEvent id="approvedEnd" name="Application Approved" />
+
+    <!-- End Event: Rejected -->
+    <endEvent id="rejectedEnd" name="Application Rejected" />
+
+  </process>
+
+</definitions>

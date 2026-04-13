@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Gov Portal | ID Renewal</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/id-renewal.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .field-error { color: #dc2626; font-size: 0.78rem; margin-top: 0.25rem; display: block; min-height: 1em; }
+        .form-control.invalid { border-color: #dc2626; }
+    </style>
+</head>
+<body>
+    <nav class="navbar solid">
+        <div class="nav-container">
+            <a href="../index.html" class="logo"><i class="fas fa-landmark"></i> E-Gov Portal</a>
+            <div class="nav-menu">
+                <span id="userInfo" style="color:white; margin-right:1rem;"></span>
+                <button onclick="logout()" class="btn btn-outline">Logout</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-header" style="padding-top:80px;">
+        <div class="container">
+            <h1>ID Renewal Service</h1>
+            <p id="roleWelcome"></p>
+        </div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <!-- Citizen View -->
+            <div id="citizenView" style="display:none;">
+                <div class="form-container">
+                    <h3>New Renewal Request</h3>
+                    <form id="renewalForm" novalidate>
+                        <div class="input-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" id="fn" class="form-control" placeholder="Enter first name">
+                            <small class="field-error" id="err-fn"></small>
+                        </div>
+                        <div class="input-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" id="ln" class="form-control" placeholder="Enter last name">
+                            <small class="field-error" id="err-ln"></small>
+                        </div>
+                        <div class="input-group">
+                            <label class="form-label">National ID</label>
+                            <input type="text" id="nid" class="form-control" placeholder="14-digit national ID number" maxlength="14">
+                            <small class="field-error" id="err-nid"></small>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit Request</button>
+                    </form>
+                </div>
+
+                <div class="card" style="margin-top:2rem;">
+                    <h3>Track My Request</h3>
+                    <div class="input-group" style="display:flex; gap:1rem; align-items:flex-start; flex-direction:column;">
+                        <div style="display:flex; gap:1rem; width:100%;">
+                            <input type="text" id="trackId" class="form-control" placeholder="Enter Request ID (UUID)">
+                            <button onclick="trackRequest()" class="btn btn-secondary">Track</button>
+                        </div>
+                        <small class="field-error" id="err-trackId"></small>
+                    </div>
+                    <div id="trackResult" style="margin-top:1rem;"></div>
+                </div>
+            </div>
+
+            <!-- Supervisor/Admin View -->
+            <div id="staffView" style="display:none;">
+                <div class="card">
+                    <h3>Pending Tasks (Workflow)</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Task ID</th>
+                                <th>Citizen</th>
+                                <th>NID</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tasksBody"></tbody>
+                    </table>
+                </div>
+
+                <div class="card" style="margin-top:2rem;">
+                    <h3>All Requests (Database)</h3>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="requestsBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Admin Only -->
+            <div id="adminView" style="display:none; margin-top:2rem;">
+                <div class="card" style="border: 1px solid var(--accent-color);">
+                    <h3>System Administration</h3>
+                    <button onclick="deployBpmn()" class="btn btn-secondary">Deploy BPMN Process</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/auth.js?v=4"></script>
+    <script src="../js/id-renewal.js"></script>
+</body>
+</html>

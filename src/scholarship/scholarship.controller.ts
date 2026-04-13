@@ -1,137 +1,189 @@
 import {
-  Body,
   Controller,
-  Get,
-  Param,
-  Patch,
   Post,
+  Get,
+  Patch,
+  Param,
+  Body,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import {
+  ApiTags,
   ApiBearerAuth,
   ApiOperation,
-  ApiParam,
   ApiResponse,
-  ApiTags,
 } from '@nestjs/swagger';
-import { Roles } from '../auth/decorators/roles.decorator';
-import { RolesGuard } from '../auth/guards/roles.guard';
-import { SubmitApplicationDto } from './dto/submit-application.dto';
-import { UpdateStatusDto } from './dto/update-status.dto';
 import { ScholarshipService } from './scholarship.service';
+import { CreateApplicationDto } from './dto/create-application.dto';
+import { AddBeneficiariesDto } from './dto/add-beneficiaries.dto';
+import { AddFinancialsDto } from './dto/add-financials.dto';
+import { CompleteTaskDto } from './dto/complete-task.dto';
+import { AdminDecisionDto } from './dto/admin-decision.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
 
-@ApiTags('scholarship')
-@ApiBearerAuth('access-token')
+interface RequestWithUser extends Request {
+  user: Record<string, unknown>;
+}
+
+@ApiTags('Scholarship')
+@ApiBearerAuth()
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('scholarship')
-@UseGuards(RolesGuard)
-@Roles('applicant', 'officer', 'admin')
 export class ScholarshipController {
   constructor(private readonly scholarshipService: ScholarshipService) {}
 
-  @Post('apply')
-  @ApiOperation({ summary: 'Submit a scholarship application' })
-  @ApiResponse({
-    status: 201,
-    description: 'Application created successfully.',
-  })
-  @ApiResponse({
-    status: 401,
-    description: 'Unauthorized (missing or invalid JWT).',
-  })
-  async apply(@Body() dto: SubmitApplicationDto) {
-    return this.scholarshipService.submitApplication(dto);
+  // ── Citizen: Step 1 – Create Draft ─────────────────────────────────
+
+  @Post()
+  @Roles('citizen')
+  @ApiOperation({ summary: 'Step 1 – Create a new draft scholarship application' })
+  @ApiResponse({ status: 201, description: 'Draft application created' })
+  async createDraft(
+    @Body() dto: CreateApplicationDto,
+    @Request() req: RequestWithUser,
+  ) {
+    const businessId = (req.user?.sub as string) || '';
+    return this.scholarshipService.createDraft(dto, businessId);
   }
 
-  @Get()
-  @ApiOperation({ summary: 'List all scholarship applications' })
-  @ApiResponse({
-    status: 200,
-    description: 'List of scholarship applications.',
-  })
-  @ApiResponse({
-    status: 401,
-    description: 'Unauthorized (missing or invalid JWT).',
-  })
-  async list() {
-    return this.scholarshipService.findAll();
+  // ── Citizen: Step 2 – Add Beneficiaries ────────────────────────────
+
+  @Patch(':id/beneficiaries')
+  @Roles('citizen')
+  @ApiOperation({ summary: 'Step 2 – Add employee beneficiaries to a draft application' })
+  @ApiResponse({ status: 200, description: 'Beneficiaries added' })
+  async addBeneficiaries(
+    @Param('id') id: string,
+    @Body() dto: AddBeneficiariesDto,
+    @Request() req: RequestWithUser,
+  ) {
+    const businessId = (req.user?.sub as string) || '';
+    return this.scholarshipService.addBeneficiaries(id, dto, businessId);
   }
+
+  // ── Citizen: Step 3 – Add Financials ───────────────────────────────
+
+  @Patch(':id/financials')
+  @Roles('citizen')
+  @ApiOperation({ summary: 'Step 3 – Add financial breakdown to a draft application' })
+  @ApiResponse({ status: 200, description: 'Financials added' })
+  async addFinancials(
+    @Param('id') id: string,
+    @Body() dto: AddFinancialsDto,
+    @Request() req: RequestWithUser,
+  ) {
+    const businessId = (req.user?.sub as string) || '';
+    return this.scholarshipService.addFinancials(id, dto, businessId);
+  }
+
+  // ── Citizen: Step 4 – Submit ───────────────────────────────────────
+
+  @Post(':id/submit')
+  @Roles('citizen')
+  @ApiOperation({
+    summary: 'Step 4 – Submit the application (GoRules runs as advisory, status → PENDING)',
+  })
+  @ApiResponse({ status: 200, description: 'Application submitted for admin review' })
+  async submitApplication(
+    @Param('id') id: string,
+    @Request() req: RequestWithUser,
+  ) {
+    const businessId = (req.user?.sub as string) || '';
+    return this.scholarshipService.submitApplication(id, businessId);
+  }
+
+  // ── Citizen: Read ──────────────────────────────────────────────────
+
+  @Get('my-requests')
+  @Roles('citizen')
+  @ApiOperation({ summary: "Get the business owner's scholarship applications" })
+  @ApiResponse({ status: 200, description: 'List of applications' })
+  async getMyRequests(@Request() req: RequestWithUser) {
+    const businessId = (req.user?.sub as string) || '';
+    return this.scholarshipService.getMyRequests(businessId);
+  }
+
+  // ── Admin: Review Workflow ─────────────────────────────────────────
+
+  @Get('admin/pending')
+  @Roles('admin', 'supervisor')
+  @ApiOperation({ summary: 'Get all PENDING and UNDER_REVIEW applications' })
+  @ApiResponse({ status: 200, description: 'List of applications awaiting review' })
+  getAdminPending() {
+    return this.scholarshipService.getAdminPendingApplications();
+  }
+
+  @Patch('admin/:id/start-review')
+  @Roles('admin', 'supervisor')
+  @ApiOperation({ summary: 'Move a PENDING application to UNDER_REVIEW' })
+  @ApiResponse({ status: 200, description: 'Application moved to UNDER_REVIEW' })
+  async startReview(
+    @Param('id') id: string,
+    @Request() req: RequestWithUser,
+  ) {
+    const adminId = (req.user?.sub as string) || '';
+    return this.scholarshipService.startReview(id, adminId);
+  }
+
+  @Patch('admin/:id/decide')
+  @Roles('admin', 'supervisor')
+  @ApiOperation({
+    summary: 'Approve or reject an application with final coverage override',
+  })
+  @ApiResponse({ status: 200, description: 'Decision recorded' })
+  async adminDecide(
+    @Param('id') id: string,
+    @Body() dto: AdminDecisionDto,
+    @Request() req: RequestWithUser,
+  ) {
+    const adminId = (req.user?.sub as string) || '';
+    return this.scholarshipService.adminDecide(id, dto, adminId);
+  }
+
+  // ── Supervisor: Flowable Tasks ─────────────────────────────────────
+
+  @Get('supervisor/tasks')
+  @Roles('supervisor', 'admin')
+  @ApiOperation({ summary: 'Get all pending Flowable review tasks' })
+  @ApiResponse({ status: 200, description: 'List of pending Flowable tasks' })
+  getSupervisorTasks() {
+    return this.scholarshipService.getSupervisorTasks();
+  }
+
+  // ── Shared: Single Application ─────────────────────────────────────
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get one scholarship application by ID' })
-  @ApiParam({ name: 'id', description: 'Application UUID' })
-  @ApiResponse({ status: 200, description: 'The scholarship application.' })
-  @ApiResponse({
-    status: 401,
-    description: 'Unauthorized (missing or invalid JWT).',
-  })
-  @ApiResponse({ status: 404, description: 'Application not found.' })
-  async getOne(@Param('id') id: string) {
+  @Roles('citizen', 'supervisor', 'admin')
+  @ApiOperation({ summary: 'Get a specific scholarship application by ID' })
+  @ApiResponse({ status: 200, description: 'Application found' })
+  @ApiResponse({ status: 404, description: 'Application not found' })
+  findOne(@Param('id') id: string) {
     return this.scholarshipService.findOne(id);
   }
 
-  @Patch(':id/status')
-  @Roles('officer', 'admin')
-  @ApiOperation({
-    summary: 'Update application status (officer/admin only)',
-    description:
-      'Performs a status transition validated by rules/application_status: ' +
-      'SUBMITTED→start_review→UNDER_REVIEW; UNDER_REVIEW→approve→APPROVED or reject→REJECTED.',
-  })
-  @ApiParam({ name: 'id', description: 'Application UUID' })
-  @ApiResponse({ status: 200, description: 'Application with updated status.' })
-  @ApiResponse({ status: 400, description: 'Invalid status transition.' })
-  @ApiResponse({
-    status: 401,
-    description: 'Unauthorized (missing or invalid JWT).',
-  })
-  @ApiResponse({
-    status: 403,
-    description: 'Forbidden (requires officer or admin role).',
-  })
-  @ApiResponse({ status: 404, description: 'Application not found.' })
-  async updateStatus(@Param('id') id: string, @Body() dto: UpdateStatusDto) {
-    return this.scholarshipService.updateStatus(id, dto.action, dto.reason);
+  @Get(':id/status')
+  @Roles('citizen', 'supervisor', 'admin')
+  @ApiOperation({ summary: 'Get the status and decision details of an application' })
+  @ApiResponse({ status: 200, description: 'Status details returned' })
+  getStatus(@Param('id') id: string) {
+    return this.scholarshipService.getApplicationStatus(id);
   }
 
-  @Get(':id/workflow/tasks')
-  @Roles('officer', 'admin')
-  @ApiOperation({
-    summary: 'Get Flowable workflow tasks for an application',
-    description: 'Retrieve all pending tasks for the workflow process instance associated with an application.'
-  })
-  @ApiParam({ name: 'id', description: 'Application UUID' })
-  @ApiResponse({ status: 200, description: 'List of workflow tasks.' })
-  @ApiResponse({ status: 404, description: 'Application not found or no process instance.' })
-  async getWorkflowTasks(@Param('id') id: string) {
-    return this.scholarshipService.getApplicationTasks(id);
-  }
+  // ── Legacy: Supervisor review (backward compatible) ────────────────
 
-  @Post(':id/workflow/complete-task')
-  @Roles('officer', 'admin')
-  @ApiOperation({
-    summary: 'Complete a Flowable workflow task',
-    description: 'Mark a task as complete with optional variables and update application status.'
-  })
-  @ApiParam({ name: 'id', description: 'Application UUID' })
-  @ApiResponse({ status: 200, description: 'Task completed successfully.' })
-  @ApiResponse({ status: 404, description: 'Application or task not found.' })
-  async completeTask(
+  @Patch(':id/review')
+  @Roles('supervisor', 'admin')
+  @ApiOperation({ summary: 'Review a scholarship application (legacy endpoint)' })
+  @ApiResponse({ status: 200, description: 'Application reviewed' })
+  async reviewApplication(
     @Param('id') id: string,
-    @Body() body: { taskId: string; approvalDecision?: string; reason?: string }
+    @Body() dto: CompleteTaskDto,
+    @Request() req: RequestWithUser,
   ) {
-    return this.scholarshipService.completeWorkflowTask(id, body.taskId, body.approvalDecision, body.reason);
-  }
-
-  @Get(':id/workflow/status')
-  @Roles('officer', 'admin')
-  @ApiOperation({
-    summary: 'Get Flowable workflow process status',
-    description: 'Retrieve the current status and variables of the workflow process instance.'
-  })
-  @ApiParam({ name: 'id', description: 'Application UUID' })
-  @ApiResponse({ status: 200, description: 'Process instance status.' })
-  @ApiResponse({ status: 404, description: 'Application not found or no process instance.' })
-  async getWorkflowStatus(@Param('id') id: string) {
-    return this.scholarshipService.getProcessStatus(id);
+    const reviewerId = (req.user?.sub as string) || '';
+    return this.scholarshipService.reviewApplication(id, dto, reviewerId);
   }
 }

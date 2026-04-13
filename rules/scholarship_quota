@@ -1,0 +1,59 @@
+{
+  "nodes": [
+    {
+      "id": "input-1",
+      "name": "input",
+      "type": "inputNode",
+      "content": {
+        "schema": "{\n  \"type\": \"object\",\n  \"properties\": {\n    \"businessTier\": { \"type\": \"string\" }\n  },\n  \"required\": [\"businessTier\"]\n}\n"
+      },
+      "position": { "x": -10, "y": 125 }
+    },
+    {
+      "id": "dt-quota",
+      "name": "Quota Rules",
+      "type": "decisionTableNode",
+      "content": {
+        "hitPolicy": "first",
+        "rules": [
+          {
+            "_id": "rule-small",
+            "col-tier": "== \"SMALL\"",
+            "out-max": "2"
+          },
+          {
+            "_id": "rule-medium",
+            "col-tier": "== \"MEDIUM\"",
+            "out-max": "5"
+          },
+          {
+            "_id": "rule-enterprise",
+            "col-tier": "== \"ENTERPRISE\"",
+            "out-max": "10"
+          }
+        ],
+        "inputs": [
+          { "id": "col-tier", "name": "Business Tier", "field": "businessTier" }
+        ],
+        "outputs": [
+          { "id": "out-max", "name": "Max Scholarships", "field": "maxScholarships" }
+        ],
+        "passThrough": true,
+        "inputField": null,
+        "outputPath": null,
+        "executionMode": "single"
+      },
+      "position": { "x": 430, "y": 114 }
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-1",
+      "type": "edge",
+      "sourceId": "input-1",
+      "targetId": "dt-quota",
+      "sourceHandle": ""
+    }
+  ],
+  "contentType": "graph"
+}

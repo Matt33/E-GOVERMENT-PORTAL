@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard | E-Government Portal</title>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <nav class="navbar solid" id="navbar">
+      <div class="nav-container">
+        <a href="./index.html" class="logo"
+          ><i class="fas fa-landmark"></i> E-Gov Portal</a
+        >
+        <div class="nav-menu" id="nav-menu">
+          <a href="./index.html" class="nav-link">Home</a>
+          <a href="./pages/services.html" class="nav-link">Services</a>
+          <a href="./dashboard.html" class="nav-link active">Dashboard</a>
+          <button
+            id="logout-btn"
+            class="btn btn-outline"
+            style="margin-left: 1rem"
+          >
+            Logout
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <main
+      class="container"
+      style="padding: 2rem 1rem; max-width: 1000px; margin-top: 80px"
+    >
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 2rem;
+        "
+      >
+        <div>
+          <h1>Welcome, <span id="user-name">User</span></h1>
+          <p style="color: #666">Track all your government service requests</p>
+        </div>
+      </div>
+
+      <!-- ID Renewal Section -->
+      <section
+        style="
+          background: white;
+          padding: 2rem;
+          border-radius: 8px;
+          margin-bottom: 2rem;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+          "
+        >
+          <h2>ID Renewal Requests</h2>
+          <a href="./pages/id-renewal.html" class="btn btn-small btn-primary"
+            >Submit New</a
+          >
+        </div>
+        <div
+          id="id-renewal-error"
+          style="
+            display: none;
+            color: red;
+            padding: 1rem;
+            background: #fee;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+          "
+        ></div>
+        <div id="id-renewal-container" style="overflow-x: auto">
+          <table style="width: 100%; border-collapse: collapse">
+            <thead style="background: #f5f5f5">
+              <tr>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Request ID
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Name
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Status
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Date Submitted
+                </th>
+              </tr>
+            </thead>
+            <tbody id="id-renewal-tbody">
+              <tr>
+                <td
+                  colspan="4"
+                  style="padding: 1rem; text-align: center; color: #999"
+                >
+                  Loading...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Scholarship Section -->
+      <section
+        style="
+          background: white;
+          padding: 2rem;
+          border-radius: 8px;
+          margin-bottom: 2rem;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+          "
+        >
+          <h2>Scholarship Requests</h2>
+          <a href="./scholarship.html" class="btn btn-small btn-primary"
+            >Submit New</a
+          >
+        </div>
+        <div
+          id="scholarship-error"
+          style="
+            display: none;
+            color: red;
+            padding: 1rem;
+            background: #fee;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+          "
+        ></div>
+        <div id="scholarship-container" style="overflow-x: auto">
+          <table style="width: 100%; border-collapse: collapse">
+            <thead style="background: #f5f5f5">
+              <tr>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Request ID
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Business Name
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Type
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Status
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Date Submitted
+                </th>
+              </tr>
+            </thead>
+            <tbody id="scholarship-tbody">
+              <tr>
+                <td
+                  colspan="5"
+                  style="padding: 1rem; text-align: center; color: #999"
+                >
+                  Loading...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Business License Section -->
+      <section
+        style="
+          background: white;
+          padding: 2rem;
+          border-radius: 8px;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        "
+      >
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+          "
+        >
+          <h2>Business License Requests</h2>
+          <a href="./business-license.html" class="btn btn-small btn-primary"
+            >Submit New</a
+          >
+        </div>
+        <div
+          id="business-license-error"
+          style="
+            display: none;
+            color: red;
+            padding: 1rem;
+            background: #fee;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+          "
+        ></div>
+        <div id="business-license-container" style="overflow-x: auto">
+          <table style="width: 100%; border-collapse: collapse">
+            <thead style="background: #f5f5f5">
+              <tr>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Request ID
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Business Name
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Type
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Status
+                </th>
+                <th
+                  style="
+                    padding: 0.75rem;
+                    text-align: left;
+                    border-bottom: 2px solid #ddd;
+                  "
+                >
+                  Date Submitted
+                </th>
+              </tr>
+            </thead>
+            <tbody id="business-license-tbody">
+              <tr>
+                <td
+                  colspan="5"
+                  style="padding: 1rem; text-align: center; color: #999"
+                >
+                  Loading...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script src="./js/auth.js?v=4"></script>
+    <script src="./js/dashboard.js"></script>
+  </body>
+</html>
