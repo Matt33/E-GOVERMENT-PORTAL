@@ -31,6 +31,32 @@
     setTimeout(function () { toast.style.display = 'none'; }, 4000);
   }
 
+  function readErrorMessage(response, fallback) {
+    return response
+      .json()
+      .then(function (data) {
+        return data && data.message ? data.message : fallback;
+      })
+      .catch(function () {
+        return fallback;
+      });
+  }
+
+  function setContainerMessage(containerId, message) {
+    var container = document.getElementById(containerId);
+    if (container) {
+      container.innerHTML = '<p>' + message + '</p>';
+    }
+  }
+
+  async function refreshAllTasks() {
+    await Promise.all([
+      loadIdRenewalTasks(),
+      loadScholarshipTasks(),
+      loadBusinessLicenseTasks(),
+    ]);
+  }
+
   async function completeTask(service, requestId, taskId, action, element) {
     if (!checkAuth()) return;
 
@@ -38,23 +64,45 @@
       return completeScholarshipTask(requestId, taskId, action, element);
     }
 
-    var endpoint = '/' + service + '/' + requestId + '/complete';
-
     try {
-      var response = await window.EgovAuth.apiFetch(endpoint, {
-        method: 'PATCH',
-        body: JSON.stringify({ action: action, taskId: taskId }),
-      });
+      var response;
+      if (service === 'id-renewal') {
+        var idRenewalBody = {
+          action: action,
+          taskId: taskId || undefined,
+        };
+        if (action === 'REJECTED') {
+          var idRejectReason = window.prompt('Enter rejection reason (optional):', '');
+          if (idRejectReason && idRejectReason.trim()) {
+            idRenewalBody.reason = idRejectReason.trim();
+          }
+        }
+        response = await window.EgovAuth.apiFetch('/id-renewal/' + requestId + '/complete', {
+          method: 'PATCH',
+          body: JSON.stringify(idRenewalBody),
+        });
+      } else {
+        var commonBody = { action: action, taskId: taskId || undefined };
+        if (action === 'REJECTED') {
+          var rejectReason = window.prompt('Enter rejection reason (optional):', '');
+          if (rejectReason && rejectReason.trim()) {
+            commonBody.reason = rejectReason.trim();
+          }
+        }
+        response = await window.EgovAuth.apiFetch('/' + service + '/' + requestId + '/complete', {
+          method: 'PATCH',
+          body: JSON.stringify(commonBody),
+        });
+      }
 
       if (!response.ok) {
-        var data = await response.json().catch(function () { return {}; });
-        showToast(data.message || 'Failed to complete task', true);
+        var message = await readErrorMessage(response, 'Failed to complete task');
+        showToast(message, true);
         return;
       }
 
       showToast('Task completed successfully');
-      element.style.opacity = '0.5';
-      element.style.pointerEvents = 'none';
+      await refreshAllTasks();
     } catch (error) {
       showToast('Error: ' + error.message, true);
     }
@@ -108,14 +156,13 @@
       );
 
       if (!response.ok) {
-        var data = await response.json().catch(function () { return {}; });
-        showToast(data.message || 'Failed to complete task', true);
+        var message = await readErrorMessage(response, 'Failed to complete task');
+        showToast(message, true);
         return;
       }
 
       showToast('Scholarship application ' + action.toLowerCase() + ' successfully');
-      element.style.opacity = '0.5';
-      element.style.pointerEvents = 'none';
+      await refreshAllTasks();
     } catch (error) {
       showToast('Error: ' + error.message, true);
     }
@@ -123,6 +170,7 @@
 
   function createTaskCard(service, request, task) {
     var details = '';
+    var taskId = task && task.id ? task.id : '';
 
     if (service === 'id-renewal') {
       details =
@@ -137,23 +185,39 @@
     return '<div style="border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; background: #f9f9f9;">' +
       '<h3 style="margin-top: 0;">' + service.replace(/-/g, ' ').toUpperCase() + '</h3>' +
       details +
-      '<p><strong>Submitted:</strong> ' + new Date(request.createdAt).toLocaleDateString() + '</p>' +
+      '<p><strong>Submitted:</strong> ' + (request.createdAt ? new Date(request.createdAt).toLocaleDateString() : '\u2014') + '</p>' +
       '<div style="display: flex; gap: 0.5rem; margin-top: 1rem;">' +
-        '<button class="btn btn-small" style="background: #4caf50; color: white; border: none; cursor: pointer; flex: 1;" onclick="window._approveTask(\'' + service + '\', \'' + request.id + '\', \'' + task.id + '\', this.parentElement.parentElement)">' +
+        '<button class="btn btn-small" style="background: #4caf50; color: white; border: none; cursor: pointer; flex: 1;" onclick="window._approveTask(\'' + service + '\', \'' + request.id + '\', \'' + taskId + '\', this.parentElement.parentElement)">' +
           'Approve' +
         '</button>' +
-        '<button class="btn btn-small" style="background: #f44336; color: white; border: none; cursor: pointer; flex: 1;" onclick="window._rejectTask(\'' + service + '\', \'' + request.id + '\', \'' + task.id + '\', this.parentElement.parentElement)">' +
+        '<button class="btn btn-small" style="background: #f44336; color: white; border: none; cursor: pointer; flex: 1;" onclick="window._rejectTask(\'' + service + '\', \'' + request.id + '\', \'' + taskId + '\', this.parentElement.parentElement)">' +
           'Reject' +
         '</button>' +
       '</div>' +
     '</div>';
   }
 
+  async function loadIdRenewalPendingFallback() {
+    var response = await window.EgovAuth.apiFetch('/id-renewal/supervisor/pending');
+    if (!response.ok) {
+      return [];
+    }
+    return response.json();
+  }
+
+  async function loadBusinessPendingFallback() {
+    var response = await window.EgovAuth.apiFetch('/business-license/supervisor/pending');
+    if (!response.ok) {
+      return [];
+    }
+    return response.json();
+  }
+
   function createScholarshipReviewCard(app, task) {
     var recCoverage = app.recommendedCoveragePercent != null ? app.recommendedCoveragePercent : '\u2014';
     var eligibleText = app.eligible === true ? 'Yes' : app.eligible === false ? 'No' : '\u2014';
 
-    return '<div style="border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; background: #f9f9f9; margin-bottom: 1rem;">' +
+    return '<div class="scholarship-review-card" style="border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; background: #f9f9f9; margin-bottom: 1rem;">' +
       '<h3 style="margin-top: 0;">SCHOLARSHIP APPLICATION</h3>' +
       '<p><strong>Business:</strong> ' + (app.businessName || '\u2014') + '</p>' +
       '<p><strong>Tier:</strong> ' + (app.businessTier || '\u2014') + ' &nbsp; <strong>Industry:</strong> ' + (app.industry || '\u2014') + '</p>' +
@@ -178,10 +242,10 @@
         '<textarea class="admin-notes" rows="2" style="padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px; width: 100%; box-sizing: border-box;" placeholder="Optional notes..."></textarea>' +
       '</div>' +
       '<div style="display: flex; gap: 0.5rem;">' +
-        '<button class="btn btn-small" style="background: #4caf50; color: white; border: none; cursor: pointer; flex: 1; padding: 0.6rem;" onclick="window._approveTask(\'scholarship\', \'' + app.id + '\', \'' + (task ? task.id : '') + '\', this.closest(\'[style]\')">' +
-          '<i class="fas fa-check"></i> Approve' +
+        '<button class="btn btn-small" style="background: #4caf50; color: white; border: none; cursor: pointer; flex: 1; padding: 0.6rem;" onclick="window._approveTask(\'scholarship\', \'' + app.id + '\', \'' + (task ? task.id : '') + '\', this.closest(\'.scholarship-review-card\'))">' +
+          '<i class="fas fa-check"></i> Approve with Coverage' +
         '</button>' +
-        '<button class="btn btn-small" style="background: #f44336; color: white; border: none; cursor: pointer; flex: 1; padding: 0.6rem;" onclick="window._rejectTask(\'scholarship\', \'' + app.id + '\', \'' + (task ? task.id : '') + '\', this.closest(\'[style]\')">' +
+        '<button class="btn btn-small" style="background: #f44336; color: white; border: none; cursor: pointer; flex: 1; padding: 0.6rem;" onclick="window._rejectTask(\'scholarship\', \'' + app.id + '\', \'' + (task ? task.id : '') + '\', this.closest(\'.scholarship-review-card\'))">' +
           '<i class="fas fa-times"></i> Reject' +
         '</button>' +
       '</div>' +
@@ -200,13 +264,36 @@
   async function loadIdRenewalTasks() {
     try {
       var response = await window.EgovAuth.apiFetch('/id-renewal/supervisor/tasks');
-      if (!response.ok) return;
+      if (!response.ok) {
+        var message = await readErrorMessage(response, 'Failed to load ID renewal tasks');
+        setContainerMessage('id-renewal-tasks', message);
+        return;
+      }
 
       var tasks = await response.json();
       var container = document.getElementById('id-renewal-tasks');
 
       if (!tasks || tasks.length === 0) {
-        container.innerHTML = '<p>No pending tasks</p>';
+        var pendingRequests = await loadIdRenewalPendingFallback();
+        if (!pendingRequests || pendingRequests.length === 0) {
+          container.innerHTML = '<p>No pending tasks</p>';
+          return;
+        }
+        container.innerHTML = pendingRequests
+          .map(function (request) {
+            return createTaskCard(
+              'id-renewal',
+              {
+                id: request.id,
+                firstName: request.firstName,
+                lastName: request.lastName,
+                nationalId: request.nationalId,
+                createdAt: request.submittedAt,
+              },
+              null,
+            );
+          })
+          .join('');
         return;
       }
 
@@ -223,8 +310,7 @@
         })
         .join('');
     } catch (error) {
-      document.getElementById('id-renewal-tasks').innerHTML =
-        '<p>Error loading tasks</p>';
+      setContainerMessage('id-renewal-tasks', 'Error loading tasks: ' + error.message);
     }
   }
 
@@ -233,7 +319,8 @@
     try {
       var response = await window.EgovAuth.apiFetch('/scholarship/admin/pending');
       if (!response.ok) {
-        container.innerHTML = '<p>No pending tasks</p>';
+        var message = await readErrorMessage(response, 'Failed to load scholarship tasks');
+        container.innerHTML = '<p>' + message + '</p>';
         return;
       }
 
@@ -250,20 +337,42 @@
         })
         .join('');
     } catch (error) {
-      container.innerHTML = '<p>Error loading scholarship tasks</p>';
+      container.innerHTML = '<p>Error loading scholarship tasks: ' + error.message + '</p>';
     }
   }
 
   async function loadBusinessLicenseTasks() {
     try {
       var response = await window.EgovAuth.apiFetch('/business-license/supervisor/tasks');
-      if (!response.ok) return;
+      if (!response.ok) {
+        var message = await readErrorMessage(response, 'Failed to load business license tasks');
+        setContainerMessage('business-license-tasks', message);
+        return;
+      }
 
       var tasks = await response.json();
       var container = document.getElementById('business-license-tasks');
 
       if (!tasks || tasks.length === 0) {
-        container.innerHTML = '<p>No pending tasks</p>';
+        var pendingRequests = await loadBusinessPendingFallback();
+        if (!pendingRequests || pendingRequests.length === 0) {
+          container.innerHTML = '<p>No pending tasks</p>';
+          return;
+        }
+        container.innerHTML = pendingRequests
+          .map(function (request) {
+            return createTaskCard(
+              'business-license',
+              {
+                id: request.id,
+                businessName: request.businessName,
+                businessType: request.businessType,
+                createdAt: request.createdAt,
+              },
+              null,
+            );
+          })
+          .join('');
         return;
       }
 
@@ -279,8 +388,10 @@
         })
         .join('');
     } catch (error) {
-      document.getElementById('business-license-tasks').innerHTML =
-        '<p>Error loading tasks</p>';
+      setContainerMessage(
+        'business-license-tasks',
+        'Error loading tasks: ' + error.message,
+      );
     }
   }
 
@@ -292,8 +403,6 @@
       window.location.href = './pages/login.html';
     });
 
-    loadIdRenewalTasks();
-    loadScholarshipTasks();
-    loadBusinessLicenseTasks();
+    refreshAllTasks();
   });
 })();

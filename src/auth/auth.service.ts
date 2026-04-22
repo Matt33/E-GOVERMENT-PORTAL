@@ -7,6 +7,8 @@ import { LoginDto } from './dto/login.dto';
 @Injectable()
 export class AuthService {
   private readonly issuer: string;
+  private readonly clientId: string;
+  private readonly clientSecret: string;
 
   constructor(
     private readonly httpService: HttpService,
@@ -14,7 +16,12 @@ export class AuthService {
   ) {
     this.issuer =
       this.configService.get<string>('keycloak.issuer') ||
-      'http://localhost:8080/realms/e-gov-portal';
+      'http://localhost:8080/realms/egov-portal';
+    this.clientId =
+      this.configService.get<string>('keycloak.clientId') || 'id-renewal-api';
+    this.clientSecret =
+      this.configService.get<string>('keycloak.clientSecret') ||
+      'xPnisDToolKxJGD9GRsBx1Tn3G0zcbKD';
   }
 
   async login(loginDto: LoginDto) {
@@ -24,11 +31,8 @@ export class AuthService {
 
     const params = new URLSearchParams();
     params.append('grant_type', 'password');
-    params.append('client_id', 'scholarship-api');
-    params.append(
-      'client_secret',
-      'scholarship-api-secret-change-in-production',
-    );
+    params.append('client_id', this.clientId);
+    params.append('client_secret', this.clientSecret);
     params.append('username', loginDto.username);
     params.append('password', loginDto.password);
     params.append('scope', 'openid profile email');

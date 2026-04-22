@@ -1,14 +1,16 @@
 export default () => ({
   keycloak: {
     issuer:
-      process.env.KEYCLOAK_ISSUER ??
-      'http://localhost:8080/realms/e-gov-portal',
+      process.env.KEYCLOAK_ISSUER ?? 'http://localhost:8080/realms/egov-portal',
     internalUrl:
       process.env.KEYCLOAK_INTERNAL_URL ??
-      'http://keycloak:8080/realms/e-gov-portal',
+      'http://localhost:8080/realms/egov-portal',
     audience: process.env.KEYCLOAK_AUDIENCE ?? 'account',
     jwksUri:
       process.env.KEYCLOAK_JWKS_URI ??
-      'http://keycloak:8080/realms/e-gov-portal/protocol/openid-connect/certs',
+      'http://localhost:8080/realms/egov-portal/protocol/openid-connect/certs',
+    clientId: process.env.KEYCLOAK_CLIENT_ID ?? 'id-renewal-api',
+    clientSecret:
+      process.env.KEYCLOAK_CLIENT_SECRET ?? 'xPnisDToolKxJGD9GRsBx1Tn3G0zcbKD',
   },
 });

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:flowable="http://flowable.org/bpmn"
+             targetNamespace="http://flowable.org/test">
+
+  <process id="id-renewal-process" name="ID Renewal Process" isExecutable="true">
+
+    <startEvent id="start" name="Request Submitted"/>
+
+    <sequenceFlow id="flow1" sourceRef="start" targetRef="validateRequest"/>
+
+    <userTask id="validateRequest" name="Supervisor Review"
+              flowable:candidateGroups="supervisor">
+      <documentation>Supervisor reviews the ID renewal request</documentation>
+    </userTask>
+
+    <sequenceFlow id="flow2" sourceRef="validateRequest" targetRef="decision"/>
+
+    <exclusiveGateway id="decision" name="Approved?"/>
+
+    <sequenceFlow id="flow3" sourceRef="decision" targetRef="approveRequest">
+      <conditionExpression>${approved == true}</conditionExpression>
+    </sequenceFlow>
+
+    <sequenceFlow id="flow4" sourceRef="decision" targetRef="rejectRequest">
+      <conditionExpression>${approved == false}</conditionExpression>
+    </sequenceFlow>
+
+    <serviceTask id="approveRequest" name="Approve Request"
+                 flowable:expression="${true}"/>
+
+    <serviceTask id="rejectRequest" name="Reject Request"
+                 flowable:expression="${true}"/>
+
+    <sequenceFlow id="flow5" sourceRef="approveRequest" targetRef="end"/>
+    <sequenceFlow id="flow6" sourceRef="rejectRequest" targetRef="end"/>
+
+    <endEvent id="end" name="Process Complete"/>
+
+  </process>
+
+</definitions>

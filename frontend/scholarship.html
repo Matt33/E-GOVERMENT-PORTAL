@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <title>Business Scholarship Application | E-Government Portal</title>
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/scholarship.css" />
@@ -76,7 +79,11 @@
           </div>
           <div class="input-group">
             <label for="businessLicenseId" class="form-label">Business License ID <span class="required">*</span></label>
-            <input type="text" id="businessLicenseId" class="form-control" required placeholder="UUID from Business License service" />
+            <input type="text" id="businessLicenseId" class="form-control" list="approved-license-options" required placeholder="Pick your APPROVED business license ID" />
+            <datalist id="approved-license-options"></datalist>
+            <small id="license-help" style="color: var(--text-secondary); margin-top: 0.35rem; display: block;">
+              Only APPROVED business licenses are valid for scholarship submission.
+            </small>
           </div>
         </div>
 
@@ -119,13 +126,17 @@
           </div>
         </div>
 
+        <div id="type-requirements-box" class="alert alert-info" style="margin-top: 0.8rem;">
+          Select a scholarship type to see specific requirements.
+        </div>
+
         <div class="form-row">
           <div class="input-group">
-            <label for="trainingTitle" class="form-label">Training Title <span class="required">*</span></label>
+            <label for="trainingTitle" class="form-label" id="training-title-label">Training Title <span class="required">*</span></label>
             <input type="text" id="trainingTitle" class="form-control" required maxlength="300" placeholder="e.g. Advanced AI Engineering Program" />
           </div>
           <div class="input-group">
-            <label for="trainingProvider" class="form-label">Training Provider <span class="required">*</span></label>
+            <label for="trainingProvider" class="form-label" id="training-provider-label">Training Provider <span class="required">*</span></label>
             <input type="text" id="trainingProvider" class="form-control" required maxlength="200" placeholder="e.g. Cairo Tech Institute" />
           </div>
         </div>
@@ -325,7 +336,7 @@
       </div>
     </footer>
 
-    <script src="./js/auth.js"></script>
-    <script src="./js/scholarship.js"></script>
+    <script src="./js/auth.js?v=4"></script>
+    <script src="./js/scholarship.js?v=2"></script>
   </body>
 </html>

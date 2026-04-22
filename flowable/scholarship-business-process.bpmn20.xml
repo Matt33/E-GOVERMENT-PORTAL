@@ -13,11 +13,11 @@
 
     <sequenceFlow id="flow-start-to-verify" sourceRef="startEvent" targetRef="verifyLicenseTask" />
 
-    <!-- Service Task: Auto-verify business license -->
+    <!-- Service Task: Placeholder validation step -->
     <serviceTask id="verifyLicenseTask"
                  name="Verify Business License"
-                 flowable:type="http">
-      <documentation>Automatically verifies the business license status via the backend API.</documentation>
+                 flowable:expression="${true}">
+      <documentation>Placeholder license validation step before manual review.</documentation>
     </serviceTask>
 
     <sequenceFlow id="flow-verify-to-review" sourceRef="verifyLicenseTask" targetRef="supervisorReviewTask" />

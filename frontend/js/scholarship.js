@@ -34,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var detailSection = document.getElementById('application-detail');
   var applicationsSection = document.getElementById('applications-section');
   var messageEl = document.getElementById('message');
+  var approvedLicenseMap = {};
 
   /* ─── Helpers ─── */
   function showMessage(text, type) {
@@ -90,6 +91,98 @@ document.addEventListener('DOMContentLoaded', function () {
   function statusBadgeClass(status) {
     var map = { DRAFT: 'draft', PENDING: 'pending', UNDER_REVIEW: 'under_review', ACCEPTED: 'accepted', REJECTED: 'rejected' };
     return map[(status || '').toUpperCase()] || 'draft';
+  }
+
+  function applyScholarshipTypeRequirements() {
+    var type = val('scholarshipType');
+    var box = document.getElementById('type-requirements-box');
+    var trainingTitle = document.getElementById('trainingTitle');
+    var trainingProvider = document.getElementById('trainingProvider');
+    var titleLabel = document.getElementById('training-title-label');
+    var providerLabel = document.getElementById('training-provider-label');
+    var beneficiariesHeading = document.querySelector('#step-2 h2');
+    var beneficiariesHint = document.querySelector('#step-2 .text-muted');
+
+    if (!box || !trainingTitle || !trainingProvider || !titleLabel || !providerLabel) {
+      return;
+    }
+
+    if (type === 'RD_GRANT') {
+      box.textContent =
+        'R&D Grant: focus on research program details, provider/lab, and clear financial breakdown. Add key team members as beneficiaries.';
+      titleLabel.innerHTML = 'R&D Program / Project Title <span class="required">*</span>';
+      providerLabel.innerHTML = 'Research Provider / Lab <span class="required">*</span>';
+      trainingTitle.placeholder = 'e.g. Applied AI Research Program';
+      trainingProvider.placeholder = 'e.g. AAST Research & Innovation Center';
+      if (beneficiariesHeading) beneficiariesHeading.innerHTML = '<i class="fas fa-users"></i> Research Team Beneficiaries';
+      if (beneficiariesHint) beneficiariesHint.textContent = 'Add key researchers/employees participating in this R&D grant.';
+      return;
+    }
+
+    if (type === 'VOCATIONAL_TRAINING') {
+      box.textContent =
+        'Vocational Training: include practical training program details and provider. Beneficiaries should be the trainees.';
+      titleLabel.innerHTML = 'Vocational Program Title <span class="required">*</span>';
+      providerLabel.innerHTML = 'Training Center / Provider <span class="required">*</span>';
+      trainingTitle.placeholder = 'e.g. Advanced CNC Operations Training';
+      trainingProvider.placeholder = 'e.g. National Vocational Training Center';
+      if (beneficiariesHeading) beneficiariesHeading.innerHTML = '<i class="fas fa-users"></i> Trainee Beneficiaries';
+      if (beneficiariesHint) beneficiariesHint.textContent = 'Add the employees who will attend the vocational training.';
+      return;
+    }
+
+    if (type === 'EMPLOYEE_UPSKILLING') {
+      box.textContent =
+        'Employee Upskilling: provide the upskilling program details and trainer. Beneficiaries should be the employees to be upskilled.';
+      titleLabel.innerHTML = 'Training Title <span class="required">*</span>';
+      providerLabel.innerHTML = 'Training Provider <span class="required">*</span>';
+      trainingTitle.placeholder = 'e.g. Advanced AI Engineering Program';
+      trainingProvider.placeholder = 'e.g. Cairo Tech Institute';
+      if (beneficiariesHeading) beneficiariesHeading.innerHTML = '<i class="fas fa-users"></i> Employee Beneficiaries';
+      if (beneficiariesHint) beneficiariesHint.textContent = 'Add the employees who will receive training under this scholarship.';
+      return;
+    }
+
+    box.textContent = 'Select a scholarship type to see specific requirements.';
+    titleLabel.innerHTML = 'Training Title <span class="required">*</span>';
+    providerLabel.innerHTML = 'Training Provider <span class="required">*</span>';
+    trainingTitle.placeholder = 'e.g. Advanced AI Engineering Program';
+    trainingProvider.placeholder = 'e.g. Cairo Tech Institute';
+  }
+
+  async function loadApprovedBusinessLicenses() {
+    var listEl = document.getElementById('approved-license-options');
+    var helpEl = document.getElementById('license-help');
+    if (!listEl) return;
+
+    try {
+      var res = await window.EgovAuth.apiFetch('/business-license/my-requests');
+      if (!res.ok) return;
+
+      var requests = await res.json();
+      var approved = (requests || []).filter(function (r) {
+        return r.status === 'APPROVED';
+      });
+
+      listEl.innerHTML = '';
+      approvedLicenseMap = {};
+
+      approved.forEach(function (r) {
+        approvedLicenseMap[r.id] = r;
+        var option = document.createElement('option');
+        option.value = r.id;
+        option.label = (r.businessName || 'Business') + ' - ' + (r.businessType || '');
+        listEl.appendChild(option);
+      });
+
+      if (helpEl) {
+        helpEl.textContent = approved.length > 0
+          ? 'Select one of your APPROVED license IDs (you can paste or pick from suggestions).'
+          : 'No approved business licenses found yet. Your license must be approved before scholarship submission.';
+      }
+    } catch (_) {
+      // Keep form usable even if license helper cannot load.
+    }
   }
 
   /* ─── Show/Hide wizard vs detail ─── */
@@ -434,6 +527,14 @@ document.addEventListener('DOMContentLoaded', function () {
     submitApplication();
   });
 
+  document.getElementById('businessLicenseId').addEventListener('change', function () {
+    var selected = approvedLicenseMap[this.value];
+    if (selected && !val('businessName')) {
+      setVal('businessName', selected.businessName || '');
+    }
+  });
+  document.getElementById('scholarshipType').addEventListener('change', applyScholarshipTypeRequirements);
+
   /* ─── View Application (draft resume or read-only detail) ─── */
   window.viewScholarshipApplication = async function (id) {
     hideMessage();
@@ -630,5 +731,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   /* ─── Init ─── */
   goToStep(1);
+  applyScholarshipTypeRequirements();
+  loadApprovedBusinessLicenses();
   loadApplications();
 });

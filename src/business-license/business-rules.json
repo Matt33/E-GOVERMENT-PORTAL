@@ -1,0 +1,62 @@
+{
+  "contentType": "application/vnd.gorules.decision",
+  "nodes": [
+    {
+      "type": "decisionTableNode",
+      "content": {
+        "hitPolicy": "first",
+        "rules": [
+          {
+            "_id": "5230f14a-dde4-4ae9-bf78-369fdd4173c0",
+            "8968ab61-3f0c-48cf-bf5f-b4013c3d0447": "\"FOOD\"",
+            "c8450626-f131-4f75-bdae-8c4150ecec3c": "",
+            "ad4537ed-d779-4315-acf1-47b47af8a962": "true",
+            "58262d3a-2782-470e-bdb0-85f6d8e9db10": ""
+          },
+          {
+            "_id": "49ba4574-37bc-40a9-b7b2-da5ec1f1e791",
+            "8968ab61-3f0c-48cf-bf5f-b4013c3d0447": "",
+            "c8450626-f131-4f75-bdae-8c4150ecec3c": "> 100000",
+            "ad4537ed-d779-4315-acf1-47b47af8a962": "",
+            "58262d3a-2782-470e-bdb0-85f6d8e9db10": "true"
+          }
+        ],
+        "inputs": [
+          {
+            "id": "8968ab61-3f0c-48cf-bf5f-b4013c3d0447",
+            "name": "New field",
+            "field": "businessType"
+          },
+          {
+            "id": "c8450626-f131-4f75-bdae-8c4150ecec3c",
+            "name": "New field",
+            "field": "capital"
+          }
+        ],
+        "outputs": [
+          {
+            "id": "ad4537ed-d779-4315-acf1-47b47af8a962",
+            "name": "Output",
+            "field": "requireHealthReview"
+          },
+          {
+            "id": "58262d3a-2782-470e-bdb0-85f6d8e9db10",
+            "name": "Output",
+            "field": "requireFinanceReview"
+          }
+        ],
+        "passThrough": true,
+        "inputField": null,
+        "outputPath": null,
+        "executionMode": "single"
+      },
+      "id": "e1ec0c28-5c50-4b89-8c5c-d4cc7d30fb26",
+      "name": "decisionTable1",
+      "position": {
+        "x": 120,
+        "y": 110
+      }
+    }
+  ],
+  "edges": []
+}

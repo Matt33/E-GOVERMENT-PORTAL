@@ -3,26 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Government Portal | Contact Us</title>
+    <meta name="description" content="Contact the E-Government portal support team for assistance with digital services.">
+    <title>E-Government Portal | Contact Support</title>
     <link rel="stylesheet" href="../css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Skip Navigation -->
+    <a href="#contact-main" class="skip-link">Skip to main content</a>
+
     <!-- Navigation -->
-    <nav class="navbar solid" id="navbar">
+    <nav class="navbar solid" id="navbar" aria-label="Main navigation">
         <div class="nav-container">
-            <a href="../index.html" class="logo">
-                <i class="fas fa-landmark"></i> E-Gov Portal
+            <a href="../index.html" class="logo" aria-label="E-Government Portal — Home">
+                <i class="fas fa-landmark" aria-hidden="true"></i> E-Gov Portal
             </a>
-            <div class="nav-menu" id="nav-menu">
-                <a href="../index.html" class="nav-link">Home</a>
-                <a href="services.html" class="nav-link">Services</a>
-                <a href="contact.html" class="nav-link active">Contact</a>
-                <a href="login.html" class="btn btn-outline" style="margin-left: 1rem; color: var(--primary-color); border-color: var(--primary-color);">Login / Register</a>
-            </div>
-            <div class="nav-toggle" id="nav-toggle">
-                <i class="fas fa-bars"></i>
+            <button class="nav-toggle" id="nav-toggle"
+                    aria-controls="nav-menu"
+                    aria-expanded="false"
+                    aria-label="Open navigation menu">
+                <i class="fas fa-bars" aria-hidden="true"></i>
+            </button>
+            <div class="nav-menu" id="nav-menu" role="list">
+                <a href="../index.html" class="nav-link" role="listitem">Home</a>
+                <a href="services.html" class="nav-link" role="listitem">Services</a>
+                <a href="contact.html" class="nav-link active" role="listitem">Contact</a>
+                <a href="./login.html" class="btn btn-outline" style="margin-left: 1rem;" id="nav-auth-btn" role="listitem">Login / Register</a>
             </div>
         </div>
     </nav>
@@ -31,81 +38,101 @@
     <header class="page-header" style="padding-bottom: 6rem;">
         <div class="container fade-up">
             <h1>Contact Government Support</h1>
-            <p>We are here to assist you with any inquiries regarding digital services.</p>
+            <p>We are here to assist you with any inquiries regarding digital citizen services.</p>
         </div>
     </header>
 
-    <section class="section" style="padding-top: 0;">
+    <main id="contact-main" class="section" style="padding-top: 0;">
         <div class="container">
             
-            <div class="contact-info-boxes fade-up delay-1">
-                <div class="info-box">
-                    <i class="fas fa-headset"></i>
+            <div class="contact-info-boxes fade-up delay-1" role="list">
+                <div class="info-box" role="listitem">
+                    <i class="fas fa-headset" aria-hidden="true"></i>
                     <h3>Call Center</h3>
-                    <p style="color: var(--text-light); margin-bottom: 0.5rem;">Toll-free 24/7 Support</p>
-                    <p style="font-size: 1.25rem; font-weight: 700; color: var(--text-main);">1-800-GOV-HELP</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">Toll-free 24/7 Support</p>
+                    <p style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">
+                        <a href="tel:18004684357" style="color: inherit; text-decoration: none;">1-800-GOV-HELP</a>
+                    </p>
                 </div>
                 
-                <div class="info-box">
-                    <i class="fas fa-envelope-open-text"></i>
+                <div class="info-box" role="listitem">
+                    <i class="fas fa-envelope-open-text" aria-hidden="true"></i>
                     <h3>Email Support</h3>
-                    <p style="color: var(--text-light); margin-bottom: 0.5rem;">Response within 48 hours</p>
-                    <p style="font-weight: 600; color: var(--text-main);">support@egov.portal.gov</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">Response within 48 hours</p>
+                    <p style="font-weight: 600; color: var(--text-primary);">
+                        <a href="mailto:support@egov.portal.gov" style="color: inherit; text-decoration: none;">support@egov.portal.gov</a>
+                    </p>
                 </div>
                 
-                <div class="info-box">
-                    <i class="fas fa-map-marked-alt"></i>
+                <div class="info-box" role="listitem">
+                    <i class="fas fa-map-marked-alt" aria-hidden="true"></i>
                     <h3>Main Office</h3>
-                    <p style="color: var(--text-light); margin-bottom: 0.5rem;">Walk-in services (Mon-Fri 8-5)</p>
-                    <p style="font-weight: 600; color: var(--text-main);">100 Government Plaza, Capital City</p>
+                    <p style="color: var(--text-secondary); margin-bottom: 0.5rem;">Walk-in services (Mon-Fri 08:00–17:00)</p>
+                    <p style="font-weight: 600; color: var(--text-primary);">100 Government Plaza, Capital City</p>
                 </div>
             </div>
 
             <div class="form-container wide fade-up delay-2" style="margin-top: 2rem;">
                 
                 <div class="form-wrapper" style="flex: 1.2;">
-                    <h2 style="margin-bottom: 1.5rem;">Send us a Message</h2>
-                    <form id="contactForm" novalidate>
+                    <h2 style="margin-bottom: 1.5rem;">Submit an Inquiry</h2>
+                    
+                    <div id="contact-alert" role="alert" aria-live="assertive" aria-atomic="true" class="alert alert-success" style="display:none; margin-bottom: 1.5rem;">
+                        <i class="fas fa-check-circle" aria-hidden="true"></i>
+                        <span>Your inquiry has been submitted. A representative will contact you shortly.</span>
+                    </div>
+
+                    <form id="contactForm" novalidate aria-label="Contact support form">
                         <div class="contact-grid">
                             <div class="input-group">
-                                <label for="fullName" class="form-label">Full Name</label>
-                                <input type="text" id="fullName" class="form-control" placeholder="John Doe">
-                                <span class="error-message">Name is required.</span>
+                                <label for="fullName" class="form-label">
+                                    Full Name <span class="required" aria-hidden="true">*</span>
+                                </label>
+                                <input type="text" id="fullName" name="fullName" class="form-control" autocomplete="name" placeholder="E.g., John Doe" aria-required="true" aria-describedby="name-error">
+                                <span id="name-error" class="error-message" role="alert">Please enter your full name.</span>
                             </div>
                             <div class="input-group">
-                                <label for="email" class="form-label">Email Address</label>
-                                <input type="email" id="email" class="form-control" placeholder="john@example.com">
-                                <span class="error-message">Valid email is required.</span>
+                                <label for="email" class="form-label">
+                                    Email Address <span class="required" aria-hidden="true">*</span>
+                                </label>
+                                <input type="email" id="email" name="email" class="form-control" autocomplete="email" placeholder="E.g., john@example.com" aria-required="true" aria-describedby="email-error">
+                                <span id="email-error" class="error-message" role="alert">Please provide a valid email address.</span>
                             </div>
                         </div>
                         
                         <div class="input-group">
-                            <label for="subject" class="form-label">Subject / Service Category</label>
-                            <select id="subject" class="form-control">
-                                <option value="" disabled selected>Select a topic...</option>
-                                <option value="technical">Technical Support (Login/Portal Issues)</option>
-                                <option value="passport">Passport & Identity</option>
-                                <option value="taxes">Taxes & Finance</option>
-                                <option value="education">Scholarships & Education</option>
-                                <option value="other">General Inquiry / Other</option>
+                            <label for="subject" class="form-label">
+                                Subject / Service Category <span class="required" aria-hidden="true">*</span>
+                            </label>
+                            <select id="subject" name="subject" class="form-control" aria-required="true" aria-describedby="subject-error">
+                                <option value="" disabled selected>Select a relevant topic...</option>
+                                <option value="technical">Technical Support (Login & Portal Issues)</option>
+                                <option value="passport">Passport & Identity Renewals</option>
+                                <option value="taxes">Taxes & Finance Operations</option>
+                                <option value="education">Scholarships & Education Tracking</option>
+                                <option value="other">General Inquiry / Other Matters</option>
                             </select>
-                            <span class="error-message">Please select a subject.</span>
+                            <span id="subject-error" class="error-message" role="alert">Please select an inquiry subject.</span>
                         </div>
                         
                         <div class="input-group">
-                            <label for="message" class="form-label">Message Details</label>
-                            <textarea id="message" class="form-control" placeholder="Please describe your issue or inquiry in detail..."></textarea>
-                            <span class="error-message">Message field cannot be empty.</span>
+                            <label for="message" class="form-label">
+                                Inquiry Details <span class="required" aria-hidden="true">*</span>
+                            </label>
+                            <textarea id="message" name="message" class="form-control" placeholder="Please describe your issue or inquiry in detail..." aria-required="true" aria-describedby="msg-error"></textarea>
+                            <span id="msg-error" class="error-message" role="alert">The message details field cannot be empty.</span>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary" style="margin-top: 1rem;"><i class="fas fa-paper-plane"></i> Submit Inquiry</button>
+                        <button type="submit" class="btn btn-primary" style="margin-top: 1rem;">
+                            <i class="fas fa-paper-plane" aria-hidden="true"></i> Submit Inquiry
+                        </button>
                     </form>
                 </div>
                 
-                <div style="flex: 1; background: #f8fafc; padding: 3rem; border-left: 1px solid #e2e8f0; display: flex; flex-direction: column;">
+                <div style="flex: 1; background: var(--bg-subtle); padding: 3rem; border-left: 1px solid var(--bg-border); display: flex; flex-direction: column;">
                     <h3 style="margin-bottom: 1.5rem;">Location Map</h3>
-                    <div class="map-container" style="flex: 1; min-height: 250px; background: #e2e8f0; display: flex; align-items: center; justify-content: center;">
-                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2799144372!2d-74.25987508935409!3d40.69714941421008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1680000000000!5m2!1sen!2s" 
+                    <div class="map-container" style="flex: 1; min-height: 250px; background: var(--bg-border); display: flex; align-items: center; justify-content: center;">
+                        <iframe title="Map showing location of Government Plaza Office" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2799144372!2d-74.25987508935409!3d40.69714941421008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2s!4v1680000000000!5m2!1sen!2s" 
                                 width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     </div>
@@ -113,10 +140,10 @@
 
             </div>
         </div>
-    </section>
+    </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo" style="padding-top: 2rem;">
         <div class="container">
             <div class="footer-bottom" style="border-top: none;">
                 <p>&copy; 2026 E-Government Digital Portal. All rights reserved.</p>
@@ -124,6 +151,6 @@
         </div>
     </footer>
 
-    <script src="../js/script.js"></script>
+    <script src="../js/script.js?v=4"></script>
 </body>
 </html>

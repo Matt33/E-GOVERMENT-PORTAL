@@ -1,36 +1,26 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { join } from 'path';
 import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
-import express from 'express';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
+
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  // Serve frontend static files first for paths that are not API/docs, so /pages/scholarship.html loads
-  const frontendPath = join(__dirname, '..', 'frontend');
-  const staticMiddleware = express.static(frontendPath);
-  app.use((req, res, next) => {
-    console.log(`[Main Logger] ${req.method} ${req.path}`);
-    if (
-      req.path.startsWith('/scholarship') ||
-      req.path.startsWith('/policies') ||
-      req.path.startsWith('/docs') ||
-      req.path.startsWith('/api')
-    ) {
-      console.log(`[Main Logger] Forwarding ${req.path} to API`);
-      return next();
-    }
-    staticMiddleware(req, res, next);
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
   });
 
   const config = new DocumentBuilder()
     .setTitle('E-Government Portal API')
     .setDescription(
-      'API for the E-Government Portal (scholarship, services, etc.)',
+      'API for the E-Government Portal (scholarship, ID renewal, and services)',
     )
     .setVersion('1.0')
     .addBearerAuth(
@@ -41,6 +31,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(process.env.PORT ?? 3000);
+  await app.listen(Number(process.env.PORT ?? 3000), '0.0.0.0');
 }
 bootstrap();

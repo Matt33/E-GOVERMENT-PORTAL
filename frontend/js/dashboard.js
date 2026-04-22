@@ -2,6 +2,11 @@
  * Dashboard JS — Uses window.EgovAuth (from auth.js) for authentication and API calls.
  */
 (function () {
+  window.copyRequestId = function (id) {
+    if (!id) return;
+    navigator.clipboard.writeText(id).catch(function () {});
+  };
+
   function checkAuth() {
     var token = window.EgovAuth.getToken();
     if (!token) {
@@ -133,8 +138,12 @@
 
       tbody.innerHTML = requests
         .map(function (req) {
+          var fullId = req.id || '';
           return '<tr style="border-bottom: 1px solid #eee;">' +
-            '<td style="padding: 0.75rem;">' + req.id.substring(0, 8) + '...</td>' +
+            '<td style="padding: 0.75rem;">' +
+              '<code style="font-size: 0.8rem;">' + fullId + '</code> ' +
+              '<button type="button" class="btn btn-small btn-outline" style="margin-left: 0.4rem;" onclick="window.copyRequestId(\'' + fullId + '\')">Copy</button>' +
+            '</td>' +
             '<td style="padding: 0.75rem;">' + req.businessName + '</td>' +
             '<td style="padding: 0.75rem;">' + req.businessType + '</td>' +
             '<td style="padding: 0.75rem; color: white; background-color: ' + getStatusColor(req.status) + '; border-radius: 4px; text-align: center; font-weight: bold;">' + req.status + '</td>' +

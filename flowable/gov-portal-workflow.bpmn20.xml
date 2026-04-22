@@ -136,38 +136,3 @@
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </definitions>
-      <documentation>
-        Review application for ${serviceType} submitted by ${applicantId}.
-      </documentation>
-    </userTask>
-    
-    <sequenceFlow id="flowToReview" name="Manual Review" sourceRef="eligibilityGateway" targetRef="officerReview" />
-
-    <!-- 6. Post-Review Decision -->
-    <exclusiveGateway id="reviewGateway" name="Officer Decision" />
-    
-    <sequenceFlow id="flowToReviewGateway" sourceRef="officerReview" targetRef="reviewGateway" />
-
-    <!-- 7. Completion States -->
-    <sequenceFlow id="flowToApproved" name="Approve" sourceRef="reviewGateway" targetRef="serviceApproved">
-      <conditionExpression xsi:type="tFormalExpression">${approved == true}</conditionExpression>
-    </sequenceFlow>
-    
-    <sequenceFlow id="flowToRejected" name="Reject" sourceRef="reviewGateway" targetRef="serviceRejected">
-      <conditionExpression xsi:type="tFormalExpression">${approved == false}</conditionExpression>
-    </sequenceFlow>
-
-    <serviceTask id="serviceApproved" name="Notify Citizen of Approval" 
-                 flowable:expression="${notificationService.sendApproval(execution)}" />
-                 
-    <serviceTask id="serviceRejected" name="Notify Citizen of Rejection" 
-                 flowable:expression="${notificationService.sendRejection(execution)}" />
-
-    <endEvent id="endEvent" name="Process Complete" />
-    
-    <sequenceFlow id="flowEnd1" sourceRef="serviceApproved" targetRef="endEvent" />
-    <sequenceFlow id="flowEnd2" sourceRef="serviceRejected" targetRef="endEvent" />
-
-  </process>
-
-</definitions>

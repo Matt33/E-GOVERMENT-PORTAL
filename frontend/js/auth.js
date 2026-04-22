@@ -3,11 +3,11 @@
  * Token is used for API calls; backend validates JWT and roles.
  */
 (function () {
-  const STORAGE_TOKEN = 'egov_scholarship_token';
-  const STORAGE_USER = 'egov_scholarship_user';
+  const STORAGE_TOKEN = 'egov_token';
+  const STORAGE_USER = 'egov_user';
 
-  const KEYCLOAK_REALM = 'e-gov-portal';
-  const KEYCLOAK_CLIENT = 'scholarship-frontend';
+  const KEYCLOAK_REALM = 'egov-portal';
+  const KEYCLOAK_CLIENT = 'id-renewal-api';
 
   function keycloakBaseUrl() {
     return (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
@@ -19,11 +19,28 @@
     return keycloakBaseUrl() + '/realms/' + KEYCLOAK_REALM + '/protocol/openid-connect/token';
   }
 
-  /** Open Keycloak registration page; redirect back to current page after sign-up. */
+  /**
+   * Resolve backend API base.
+   * - When frontend is on :8888, backend is expected on :3000.
+   * - Fallback to same-origin if already served by backend.
+   */
+  function apiBaseUrl() {
+    var port = window.location.port;
+    var host = window.location.hostname;
+    var protocol = window.location.protocol;
+    if (port === '8888') {
+      return protocol + '//' + host + ':3000';
+    }
+    return window.location.origin;
+  }
+
+  /** Open local portal registration page. */
   function openRegistration() {
-    const redirectUri = encodeURIComponent(window.location.href);
-    const url = keycloakBaseUrl() + '/realms/' + KEYCLOAK_REALM + '/protocol/openid-connect/registrations?client_id=' + KEYCLOAK_CLIENT + '&redirect_uri=' + redirectUri + '&response_type=code&scope=openid';
-    window.location.href = url;
+    const currentPath = window.location.pathname || '';
+    const registerPath = currentPath.includes('/pages/')
+      ? './register.html'
+      : './pages/register.html';
+    window.location.href = registerPath;
   }
 
   function decodeJwtPayload(token) {
@@ -42,7 +59,7 @@
     openRegistration: openRegistration,
 
     async login(username, password) {
-      const res = await fetch('/auth/login', {
+      const res = await fetch(apiBaseUrl() + '/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
@@ -68,6 +85,8 @@
     logout() {
       localStorage.removeItem(STORAGE_TOKEN);
       localStorage.removeItem(STORAGE_USER);
+      localStorage.removeItem('egov_scholarship_token');
+      localStorage.removeItem('egov_scholarship_user');
     },
 
     getToken() {
@@ -97,7 +116,8 @@
       const token = this.getToken();
       const headers = { ...options.headers, 'Content-Type': 'application/json' };
       if (token) headers['Authorization'] = 'Bearer ' + token;
-      return fetch(path, { ...options, headers });
+      const normalizedPath = path.startsWith('/') ? path : '/' + path;
+      return fetch(apiBaseUrl() + normalizedPath, { ...options, headers });
     },
   };
 })();

@@ -195,8 +195,8 @@
       </footer>
     </div>
 
-    <script src="../js/auth.js?v=4"></script>
-    <script src="../js/script.js?v=3"></script>
+    <script src="../js/script.js?v=4"></script>
+    <script src="../js/auth.js"></script>
     <script>
       function validateEmail(email) {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -261,14 +261,14 @@
 
           try {
             const response = await window.EgovAuth.apiFetch('/auth/register', {
-              method: 'POST',
-              body: JSON.stringify({
-                firstName,
-                lastName,
-                username,
-                email,
-                password,
-              }),
+                method: 'POST',
+                body: JSON.stringify({
+                  firstName,
+                  lastName,
+                  username,
+                  email,
+                  password,
+                }),
             });
 
             if (!response.ok) {
